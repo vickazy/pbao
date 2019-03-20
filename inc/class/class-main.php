@@ -14,6 +14,12 @@ if ( ! class_exists( 'Class_Main' ) ) {
 	class Class_Main {
 
 		/**
+		 * Define dependency classes
+		 *
+		 * @var array
+		 */
+		private static $classes = [];
+		/**
 		 * Create instance variable
 		 *
 		 * @var null
@@ -37,14 +43,28 @@ if ( ! class_exists( 'Class_Main' ) ) {
 		 * Class_Main constructor.
 		 */
 		private function __construct() {
-			$this->_load_classes();
+			self::_map_classes();
+			self::_load_classes();
 		}
 
 		/**
-		 * Load class dependencies
+		 * Map dependency classes
 		 */
-		private function _load_classes() {
+		private static function _map_classes() {
+			self::$classes = [
+				'assets'
+			];
+		}
 
+		/**
+		 * Load dependency classes
+		 */
+		private static function _load_classes() {
+			foreach ( self::$classes as $class ) {
+				require TEMP_DIR . "/inc/class/class-{$class}.php";
+			}
 		}
 	}
 }
+
+Class_Main::init();
