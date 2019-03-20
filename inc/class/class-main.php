@@ -52,7 +52,9 @@ if ( ! class_exists( 'Class_Main' ) ) {
 		 */
 		private static function _map_classes() {
 			self::$classes = [
-				'assets'
+				'assets',
+				'temp',
+				'designer',
 			];
 		}
 
