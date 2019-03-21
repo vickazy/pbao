@@ -53,14 +53,30 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		 * Register designer hooks
 		 */
 		private static function register_hooks() {
-			add_action( 'header_content', [ __CLASS__, 'header_content_callback' ], 10 );
+			add_action( 'header_content', [ __CLASS__, 'header_open_callback' ], 10 );
+			add_action( 'header_content', [ __CLASS__, 'landing_top_nav_callback' ], 20 );
+			add_action( 'footer_content', [ __CLASS__, 'footer_close_callback' ], 10 );
 		}
 
 		/**
-		 * Callback for header content
+		 * Callback for header opening tag
 		 */
-		static function header_content_callback() {
-			echo self::$temp->render('header-open');
+		static function header_open_callback() {
+			echo self::$temp->render( 'header-open' );
+		}
+
+		/**
+		 * Callback for landing page top nav
+		 */
+		static function landing_top_nav_callback() {
+			echo self::$temp->render( 'landing-top-nav' );
+		}
+
+		/**
+		 * Callback for footer closing tag
+		 */
+		static function footer_close_callback() {
+			echo self::$temp->render( 'footer-close' );
 		}
 	}
 }

@@ -6,4 +6,7 @@
  * Time: 11:15 PM
  */
 
-wp_footer();
+/**
+ * Hooked from Class_Designer::
+ */
+do_action( 'footer_content' );
