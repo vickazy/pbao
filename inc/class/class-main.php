@@ -55,6 +55,7 @@ if ( ! class_exists( 'Class_Main' ) ) {
 				'assets',
 				'temp',
 				'designer',
+				'admin'
 			];
 		}
 

@@ -60,8 +60,12 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 		 */
 		private static function _map_public_assets() {
 			self::$public_css = [
-				'stylesheet' => get_stylesheet_uri(),
-				'main'       => TEMP_URI . '/assets/css/main.css'
+				'stylesheet'       => get_stylesheet_uri(),
+				'bootstrap'        => TEMP_URI . '/assets/vendor/bootstrap/css/bootstrap.min.css',
+				'font-awesome'     => TEMP_URI . '/assets/vendor/fontawesome-free/css/all.min.css',
+				'open-sans-gf'     => 'https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800',
+				'merry-weather-gf' => 'https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic',
+				'main'             => TEMP_URI . '/assets/css/main.css'
 			];
 
 			self::$public_js = [
