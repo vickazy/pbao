@@ -65,7 +65,11 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 			];
 
 			self::$public_js = [
-				'main' => TEMP_URI . '/assets/js/main.js'
+				'bootstrap'             => TEMP_URI . '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js',
+				'jquery-easing'         => TEMP_URI . '/assets/vendor/jquery-easing/jquery.easing.min.js',
+				'jquery-magnific-popup' => TEMP_URI . '/assets/vendor/magnific-popup/jquery.magnific-popup.min.js',
+				'scroll-reveal'         => TEMP_URI . '/assets/vendor/scrollreveal/scrollreveal.min.js',
+				'main'                  => TEMP_URI . '/assets/js/main.js'
 			];
 		}
 
