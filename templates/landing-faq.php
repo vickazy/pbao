@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 <section class="faq bg-primary" id="faq">
     <div class="container">
         <div class="row">
-            <div class="col-8 mx-auto text-center">
-                <h2 class="section-heading text-white">Apa itu PBAO?</h2>
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-heading text-white">Pertanyaan Umum</h2>
                 <hr class="light my-4">
                 <p class="text-faded mb-4">Berikut ini ialah beberapa pertanyaan yang
                     sering dijumpai berkaitan PBAO</p>

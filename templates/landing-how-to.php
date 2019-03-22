@@ -55,9 +55,9 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">
                 <div class="button-box">
-                    <a href="#reg" class="btn btn-primary btn-xl page-scroll wow bounceIn" data-wow-delay="1.2s">Saya
+                    <a href="#reg" class="btn btn-primary btn-xl js-scroll-trigger">Saya
                         Tertarik</a>
-                    <a href="#faq" class="btn btn-default btn-xl page-scroll wow bounceIn" data-wow-delay="1.3s">Saya
+                    <a href="#faq" class="btn btn-default btn-xl js-scroll-trigger">Saya
                         Masih Bingung</a>
                 </div>
             </div>

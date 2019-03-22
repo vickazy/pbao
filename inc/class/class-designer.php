@@ -53,6 +53,7 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		 * Register designer hooks
 		 */
 		private function register_hooks() {
+			add_action( 'wp_head', [ $this, 'head_content_callback' ] );
 			add_action( 'header_content', [ $this, 'header_open_callback' ], 10 );
 			add_action( 'header_content', [ $this, 'landing_top_nav_callback' ], 20 );
 			add_action( 'landing_content', [ $this, 'landing_content_callback' ], 10 );
@@ -60,6 +61,12 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 			add_action( 'footer_content', [ $this, 'footer_close_callback' ], 20 );
 		}
 
+		/**
+		 * Callback for head content
+		 */
+		function head_content_callback(){
+			echo "<meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">";
+		}
 		/**
 		 * Callback for header opening tag
 		 */
