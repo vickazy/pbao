@@ -36,19 +36,33 @@ if ( ! class_exists( 'Class_CPT' ) ) {
 		 * Class_CPT constructor.
 		 */
 		private function __construct() {
+			$this->_load_dependencies();
 			$this->_register_angkatan_callback();
 		}
 
-		private function _register_angkatan_callback() {
-			add_action( 'init', [ $this, '_register_angkatan_post_type_callback' ] );
+		/**
+		 * Load dependency libraries
+		 */
+		private function _load_dependencies() {
+			require_once TEMP_PATH . '/inc/lib/cmb2/init.php';
 		}
 
+		/**
+		 * Register cpt for angkatan
+		 */
+		private function _register_angkatan_callback() {
+			add_action( 'init', [ $this, '_register_angkatan_post_type_callback' ] );
+			add_action( 'cmb2_admin_init', [ $this, '_register_angkatan_metabox_callback' ] );
+		}
+
+		/**
+		 * Callback for registering angkatan post type
+		 */
 		function _register_angkatan_post_type_callback() {
 			$args_angkatan = [
 				'labels'              => [
 					'name'          => _x( 'Angkatan', 'Post Type General Name' ),
 					'singular_name' => _x( 'Angkatan', 'Post Type Singular Name' ),
-					'menu_name'     => __( 'Angkatan' ),
 				],
 				'supports'            => [
 					'title',
@@ -73,6 +87,31 @@ if ( ! class_exists( 'Class_CPT' ) ) {
 
 			];
 			register_post_type( 'angkatan', $args_angkatan );
+		}
+
+		/**
+		 * Callback for registering angkatan metabox
+		 */
+		function _register_angkatan_metabox_callback() {
+			$cmb = new_cmb2_box( [
+				'id'           => 'cmb_home_masthead',
+				'title'        => __( 'Angkatan', 'cmb2' ),
+				'object_types' => [ 'angkatan' ], // Post type
+//				'show_on'      => [
+//					'key'   => 'page-template',
+//					'value' => 'front-page.php'
+//				],
+				'context'      => 'normal',
+				'priority'     => 'high',
+				'show_names'   => true, // Show field names on the left
+//				'cmb_styles'   => false, // false to disable the CMB stylesheet
+				// 'closed'     => true, // Keep the metabox closed by default
+			] );
+			$cmb->add_field( [
+				'name' => 'Pembukaan',
+				'id'   => 'angkatan_pembukaan',
+				'type' => 'text_datetime_timestamp',
+			] );
 		}
 	}
 }
