@@ -56,7 +56,8 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 			add_action( 'header_content', [ __CLASS__, 'header_open_callback' ], 10 );
 			add_action( 'header_content', [ __CLASS__, 'landing_top_nav_callback' ], 20 );
 			add_action( 'landing_content', [ __CLASS__, 'landing_content_callback' ], 10 );
-			add_action( 'footer_content', [ __CLASS__, 'footer_close_callback' ], 10 );
+			add_action( 'footer_content', [ __CLASS__, 'footer_landing_callback' ], 10 );
+			add_action( 'footer_content', [ __CLASS__, 'footer_close_callback' ], 20 );
 		}
 
 		/**
@@ -80,6 +81,15 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 			echo self::$temp->render( 'landing-masthead' );
 			echo self::$temp->render( 'landing-about' );
 			echo self::$temp->render( 'landing-service' );
+		}
+
+		/**
+		 * Callback for footer landing content
+		 */
+		static function footer_landing_callback() {
+			echo self::$temp->render( 'footer-landing',
+				[ 'footer_networks' => '&copy; ' . get_bloginfo( 'name' ) . ' ' . date( 'Y' ) ]
+			);
 		}
 
 		/**

@@ -19,20 +19,14 @@ if ( ! defined( 'ABSPATH' ) ) {
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="#about">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="#services">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
-                </li>
-            </ul>
+	        <?php wp_nav_menu( array(
+			        'theme_location' => 'main_menu',
+			        'menu_class'     => 'navbar-nav ml-auto',
+			        'depth'          => 1,
+			        'container'      => '',
+			        'walker'         => new Class_Navwalker()
+		        )
+	        ); ?>
         </div>
     </div>
 </nav>

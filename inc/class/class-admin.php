@@ -38,6 +38,7 @@ if ( ! class_exists( 'Class_Admin' ) ) {
 		 */
 		private function __construct() {
 			self::_add_theme_support();
+			self::_register_navmenu();
 		}
 
 		/**
@@ -46,6 +47,15 @@ if ( ! class_exists( 'Class_Admin' ) ) {
 		private static function _add_theme_support() {
 			add_theme_support( 'title-tag' );
 			add_theme_support( 'menus' );
+		}
+
+		/**
+		 * Add theme nav menu
+		 */
+		private static function _register_navmenu() {
+			register_nav_menus( array(
+				'main_menu' => 'Main Menu',
+			) );
 		}
 	}
 }
