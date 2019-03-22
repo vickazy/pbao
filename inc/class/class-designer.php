@@ -80,7 +80,7 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		function landing_content_callback() {
 			echo self::$temp->render( 'landing-masthead' );
 			echo self::$temp->render( 'landing-about' );
-			echo self::$temp->render( 'landing-service' );
+			echo self::$temp->render( 'landing-how-to' );
 		}
 
 		/**
