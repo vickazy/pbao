@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <section id="how-to" class="how-to">
     <div class="container">
         <div class="row">
-            <div class="col-lg-9 mx-auto text-center">
+            <div class="col-lg-8 mx-auto text-center">
                 <h2 class="section-heading">Cara Belajar?</h2>
                 <hr class="my-4">
                 <p class="text-normal">Seluruh kegiatan PBAO dilaksanakan sepenuhnya online. Dan berikut ini adalah gambaran metode cara
@@ -53,7 +53,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-9 mx-auto text-center">
+            <div class="col-lg-8 mx-auto text-center">
                 <div class="button-box">
                     <a href="#reg" class="btn btn-primary btn-xl page-scroll wow bounceIn" data-wow-delay="1.2s">Saya
                         Tertarik</a>

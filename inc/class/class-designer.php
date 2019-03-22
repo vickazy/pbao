@@ -81,6 +81,7 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 			echo self::$temp->render( 'landing-masthead' );
 			echo self::$temp->render( 'landing-about' );
 			echo self::$temp->render( 'landing-how-to' );
+			echo self::$temp->render( 'landing-faq' );
 		}
 
 		/**

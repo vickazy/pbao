@@ -255,6 +255,22 @@ section.how-to .service-box p {
     max-width: 400px;
 }
 
+.faq .accordion .card {
+    background: transparent !important;
+    border: none !important;
+}
+
+.faq .accordion .card a.fquestion {
+    font-size: 18px;
+    color: rgba(255, 255, 255, .9);
+    cursor: pointer;
+}
+
+.faq .accordion .card .card-body p {
+    font-size: 16px;
+    color: rgba(255, 255, 255, .9);
+}
+
 .portfolio-box {
     position: relative;
     display: block;
