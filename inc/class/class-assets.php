@@ -65,7 +65,7 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 				'font-awesome'     => TEMP_URI . '/assets/vendor/fontawesome-free/css/all.min.css',
 				'open-sans-gf'     => 'https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800',
 				'merry-weather-gf' => 'https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic',
-				'main'             => TEMP_URI . '/assets/css/main.css'
+				'main'             => TEMP_URI . '/assets/landing/css/main.css'
 			];
 
 			self::$public_js = [
@@ -73,7 +73,7 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 				'jquery-easing'         => TEMP_URI . '/assets/vendor/jquery-easing/jquery.easing.min.js',
 				'jquery-magnific-popup' => TEMP_URI . '/assets/vendor/magnific-popup/jquery.magnific-popup.min.js',
 				'scroll-reveal'         => TEMP_URI . '/assets/vendor/scrollreveal/scrollreveal.min.js',
-				'main'                  => TEMP_URI . '/assets/js/main.js'
+				'main'                  => TEMP_URI . '/assets/landing/js/main.js'
 			];
 		}
 

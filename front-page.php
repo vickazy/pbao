@@ -8,4 +8,9 @@
 
 get_header();
 
+/**
+ * Hooked from Class_Designer::
+ */
+do_action( 'front_content' );
+
 get_footer();
