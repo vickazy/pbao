@@ -36,13 +36,13 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 		 * Class_Ajax constructor.
 		 */
 		private function __construct() {
-			self::_register_endpoints();
+			$this->_register_endpoints();
 		}
 
 		/**
 		 * Register ajax endpoint
 		 */
-		private static function _register_endpoints() {
+		private function _register_endpoints() {
 
 		}
 	}

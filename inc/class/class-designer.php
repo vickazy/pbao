@@ -46,38 +46,38 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		private function __construct() {
 			$temp       = Class_Temp::init();
 			self::$temp = $temp;
-			self::register_hooks();
+			$this->register_hooks();
 		}
 
 		/**
 		 * Register designer hooks
 		 */
-		private static function register_hooks() {
-			add_action( 'header_content', [ __CLASS__, 'header_open_callback' ], 10 );
-			add_action( 'header_content', [ __CLASS__, 'landing_top_nav_callback' ], 20 );
-			add_action( 'landing_content', [ __CLASS__, 'landing_content_callback' ], 10 );
-			add_action( 'footer_content', [ __CLASS__, 'footer_landing_callback' ], 10 );
-			add_action( 'footer_content', [ __CLASS__, 'footer_close_callback' ], 20 );
+		private function register_hooks() {
+			add_action( 'header_content', [ $this, 'header_open_callback' ], 10 );
+			add_action( 'header_content', [ $this, 'landing_top_nav_callback' ], 20 );
+			add_action( 'landing_content', [ $this, 'landing_content_callback' ], 10 );
+			add_action( 'footer_content', [ $this, 'footer_landing_callback' ], 10 );
+			add_action( 'footer_content', [ $this, 'footer_close_callback' ], 20 );
 		}
 
 		/**
 		 * Callback for header opening tag
 		 */
-		static function header_open_callback() {
+		function header_open_callback() {
 			echo self::$temp->render( 'header-open' );
 		}
 
 		/**
 		 * Callback for landing page top nav
 		 */
-		static function landing_top_nav_callback() {
+		function landing_top_nav_callback() {
 			echo self::$temp->render( 'landing-top-nav' );
 		}
 
 		/**
 		 * Callback for landing page content
 		 */
-		static function landing_content_callback() {
+		function landing_content_callback() {
 			echo self::$temp->render( 'landing-masthead' );
 			echo self::$temp->render( 'landing-about' );
 			echo self::$temp->render( 'landing-service' );
@@ -86,7 +86,7 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		/**
 		 * Callback for footer landing content
 		 */
-		static function footer_landing_callback() {
+		function footer_landing_callback() {
 			echo self::$temp->render( 'footer-landing',
 				[ 'footer_networks' => '&copy; ' . get_bloginfo( 'name' ) . ' ' . date( 'Y' ) ]
 			);
@@ -95,7 +95,7 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		/**
 		 * Callback for footer closing tag
 		 */
-		static function footer_close_callback() {
+		function footer_close_callback() {
 			echo self::$temp->render( 'footer-close' );
 		}
 	}
