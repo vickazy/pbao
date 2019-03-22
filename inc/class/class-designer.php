@@ -55,7 +55,7 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		private static function register_hooks() {
 			add_action( 'header_content', [ __CLASS__, 'header_open_callback' ], 10 );
 			add_action( 'header_content', [ __CLASS__, 'landing_top_nav_callback' ], 20 );
-			add_action( 'landing_content', [ __CLASS__, 'landing_masthead_callback' ], 10 );
+			add_action( 'landing_content', [ __CLASS__, 'landing_content_callback' ], 10 );
 			add_action( 'footer_content', [ __CLASS__, 'footer_close_callback' ], 10 );
 		}
 
@@ -76,8 +76,9 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		/**
 		 * Callback for landing page content
 		 */
-		static function landing_masthead_callback() {
+		static function landing_content_callback() {
 			echo self::$temp->render( 'landing-masthead' );
+			echo self::$temp->render( 'landing-about' );
 		}
 
 		/**
