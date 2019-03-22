@@ -56,7 +56,8 @@ if ( ! class_exists( 'Class_Main' ) ) {
 				'temp',
 				'designer',
 				'admin',
-				'navwalker'
+				'navwalker',
+				'ajax'
 			];
 		}
 
