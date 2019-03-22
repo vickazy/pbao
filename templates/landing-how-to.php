@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } ?>
 
-<section id="how-to">
+<section id="how-to" class="how-to">
     <div class="container">
         <div class="row">
             <div class="col-lg-9 mx-auto text-center">
@@ -49,6 +49,16 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <i class="fa fa-4x fa-pen-square text-primary mb-3 sr-icon-4"></i>
                     <h3 class="mb-3">Tugas</h3>
                     <p class="text-muted mb-0">Peserta diharuskan mengerjakan tugas berkaitan materi halaqoh melalui web.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9 mx-auto text-center">
+                <div class="button-box">
+                    <a href="#reg" class="btn btn-primary btn-xl page-scroll wow bounceIn" data-wow-delay="1.2s">Saya
+                        Tertarik</a>
+                    <a href="#faq" class="btn btn-default btn-xl page-scroll wow bounceIn" data-wow-delay="1.3s">Saya
+                        Masih Bingung</a>
                 </div>
             </div>
         </div>

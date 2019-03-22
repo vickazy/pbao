@@ -235,6 +235,22 @@ header.masthead p {
     }
 }
 
+section.how-to .service-box h3 {
+    font-size: 24px;
+}
+
+section.how-to .service-box p {
+    font-size: 16px;
+}
+
+.button-box {
+    margin: 50px auto 0;
+}
+
+.button-box .btn {
+    margin: auto 10px;
+}
+
 .service-box {
     max-width: 400px;
 }
