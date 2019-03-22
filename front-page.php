@@ -11,6 +11,6 @@ get_header();
 /**
  * Hooked from Class_Designer::
  */
-do_action( 'front_content' );
+do_action( 'landing_content' );
 
 get_footer();
