@@ -109,8 +109,68 @@ if ( ! class_exists( 'Class_CPT' ) ) {
 			] );
 			$cmb->add_field( [
 				'name' => 'Pembukaan',
-				'id'   => 'angkatan_pembukaan',
+				'id'   => 'pembukaan',
 				'type' => 'text_datetime_timestamp',
+			] );
+			$cmb->add_field( [
+				'name'            => __( 'Kuota Ikhwan' ),
+				'id'              => 'kuota_ikhwan',
+				'type'            => 'text',
+				'attributes'      => [
+					'type'     => 'number',
+					'pattern'  => '\d*',
+					'required' => 'required',
+					'min'      => '0',
+					'oninput'  => 'this.value = Math.abs(this.value)'
+				],
+				'sanitization_cb' => 'absint',
+				'escape_cb'       => 'absint',
+				'after'           => " Orang"
+			] );
+			$cmb->add_field( [
+				'name'            => __( 'Kuota Akhwat' ),
+				'id'              => 'kuota_akhwat',
+				'type'            => 'text',
+				'attributes'      => [
+					'type'     => 'number',
+					'pattern'  => '\d*',
+					'required' => 'required',
+					'min'      => '0',
+					'oninput'  => 'this.value = Math.abs(this.value)'
+				],
+				'sanitization_cb' => 'absint',
+				'escape_cb'       => 'absint',
+				'after'           => " Orang"
+			] );
+			$cmb->add_field( [
+				'name'            => __( 'Kuota Setiap Kelas' ),
+				'id'              => 'kuota_kelas',
+				'type'            => 'text',
+				'default'         => 100,
+				'attributes'      => [
+					'type'     => 'number',
+					'pattern'  => '\d*',
+					'required' => 'required',
+					'min'      => '1',
+					'oninput'  => 'this.value = Math.abs(this.value)'
+				],
+				'sanitization_cb' => 'absint',
+				'escape_cb'       => 'absint',
+				'after'           => " Orang"
+			] );
+			$cmb->add_field( [
+				'name' => __( 'Buka Pendaftaran' ),
+				'desc' => 'Jangan dicentang jika pendaftaran telah ditutup',
+				'id'   => 'buka',
+				'type' => 'checkbox',
+			] );
+			$cmb->add_field( [
+				'name'       => 'Catatan',
+				'id'         => 'catatan',
+				'type'       => 'textarea',
+				'attributes' => [
+					'rows' => '6',
+				],
 			] );
 		}
 	}

@@ -271,6 +271,22 @@ section.how-to .service-box p {
     color: rgba(255, 255, 255, .9);
 }
 
+.reg .card {
+    padding: 25px 40px;
+    box-shadow: 0 4px 7px 1px #eee;
+    border: 0;
+    transition: all .3s;
+}
+
+.reg .card:hover {
+    background: #fdfdfd;
+    transform: scale(1.1);
+}
+
+.reg .card .card-body p.card-text {
+    font-size: 16px;
+}
+
 .portfolio-box {
     position: relative;
     display: block;

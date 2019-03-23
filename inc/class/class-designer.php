@@ -64,9 +64,10 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		/**
 		 * Callback for head content
 		 */
-		function head_content_callback(){
+		function head_content_callback() {
 			echo "<meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">";
 		}
+
 		/**
 		 * Callback for header opening tag
 		 */
@@ -89,6 +90,21 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 			echo self::$temp->render( 'landing-about' );
 			echo self::$temp->render( 'landing-how-to' );
 			echo self::$temp->render( 'landing-faq' );
+			echo self::$temp->render( 'landing-reg',
+				[
+					'cards' => [
+						[
+							'img_url' => TEMP_URI . '/assets/landing/img/ikhwan.png',
+							'title'   => 'Ikhwan',
+							'info'    => 'Mantab Djiwaa'
+						],
+						[
+							'img_url' => TEMP_URI . '/assets/landing/img/akhwat.png',
+							'title'   => 'Akhwat',
+							'info'    => 'Mantab Djiwaa'
+						]
+					]
+				] );
 		}
 
 		/**
