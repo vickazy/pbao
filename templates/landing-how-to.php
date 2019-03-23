@@ -16,12 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) {
             <div class="col-lg-8 mx-auto text-center">
                 <h2 class="section-heading">Cara Belajar?</h2>
                 <hr class="my-4">
-                <p class="text-normal">Seluruh kegiatan PBAO dilaksanakan sepenuhnya online. Dan berikut ini adalah gambaran metode cara
+                <p class="text-normal">Seluruh kegiatan PBAO dilaksanakan sepenuhnya online. Dan berikut ini adalah
+                    gambaran metode cara
                     mengikuti PBAO:</p>
             </div>
         </div>
-    </div>
-    <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box mt-5 mx-auto">
@@ -48,7 +47,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <div class="service-box mt-5 mx-auto">
                     <i class="fa fa-4x fa-pen-square text-primary mb-3 sr-icon-4"></i>
                     <h3 class="mb-3">Tugas</h3>
-                    <p class="text-muted mb-0">Peserta diharuskan mengerjakan tugas berkaitan materi halaqoh melalui web.</p>
+                    <p class="text-muted mb-0">Peserta diharuskan mengerjakan tugas berkaitan materi halaqoh melalui
+                        web.</p>
                 </div>
             </div>
         </div>
