@@ -57,8 +57,10 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 			add_action( 'header_content', [ $this, 'header_open_callback' ], 10 );
 			add_action( 'header_content', [ $this, 'landing_top_nav_callback' ], 20 );
 			add_action( 'landing_content', [ $this, 'landing_content_callback' ], 10 );
+			add_filter( 'landing_reg_content', [ $this, 'landing_reg_content_callback' ] );
 			add_action( 'footer_content', [ $this, 'footer_landing_callback' ], 10 );
 			add_action( 'footer_content', [ $this, 'footer_close_callback' ], 20 );
+			add_action( 'footer_content', [ $this, 'reg_modal_callback' ], 30 );
 		}
 
 		/**
@@ -90,21 +92,33 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 			echo self::$temp->render( 'landing-about' );
 			echo self::$temp->render( 'landing-how-to' );
 			echo self::$temp->render( 'landing-faq' );
-			echo self::$temp->render( 'landing-reg',
-				[
+			echo self::$temp->render( 'landing-reg', [ 'reg_form_content' => '' ] );
+		}
+
+		/**
+		 * Callback for rendering landing page register form
+		 */
+		function landing_reg_content_callback() {
+			$reg_status = Class_Helper::is_reg_open();
+			$result     = self::$temp->render( 'landing-reg-close', [ 'message' => $reg_status['message'] ] );
+			if ( $reg_status['is_open'] ) {
+				$result = self::$temp->render( 'landing-reg-open', [
 					'cards' => [
 						[
 							'img_url' => TEMP_URI . '/assets/landing/img/ikhwan.png',
 							'title'   => 'Ikhwan',
-							'info'    => 'Mantab Djiwaa'
+							'info'    => 'Kuota sudah terisi ' . $reg_status['ikhwan_isi_percent'] . '%'
 						],
 						[
 							'img_url' => TEMP_URI . '/assets/landing/img/akhwat.png',
 							'title'   => 'Akhwat',
-							'info'    => 'Mantab Djiwaa'
+							'info'    => 'Kuota sudah terisi ' . $reg_status['akhwat_isi_percent'] . '%'
 						]
 					]
 				] );
+			}
+
+			return $result;
 		}
 
 		/**
@@ -121,6 +135,14 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		 */
 		function footer_close_callback() {
 			echo self::$temp->render( 'footer-close' );
+		}
+
+
+		/**
+		 * Callback for rendering registration modal
+		 */
+		function reg_modal_callback() {
+			echo self::$temp->render( 'landing-reg-modal', [ '' ] );
 		}
 	}
 }

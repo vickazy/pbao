@@ -8,7 +8,10 @@
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-} ?>
+}
+
+$reg_form_content = apply_filters( 'landing_reg_content', $reg_form_content );
+?>
 
 <section id="reg" class="reg">
     <div class="container">
@@ -17,20 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <h2 class="section-heading">Pendaftaran</h2>
                 <hr class="my-4">
                 <p class="text-normal mb-4">Silahkan lakukan pendaftaran selama kuota masih tersedia</p>
-                <div class="card-deck mb-5">
-					<?php foreach ( $cards as $card ) { ?>
-                        <div class="card">
-                            <img class="card-img-top" src="<?php echo $card['img_url']; ?>" alt="Card image">
-                            <div class="card-body">
-                                <h4 class="card-title"><?php echo $card['title'] ;?></h4>
-                                <p class="card-text"><?php echo $card['info']; ?></p>
-                            </div>
-                        </div>
-					<?php }; ?>
-                </div>
-                <div class="button-box">
-                    <button type="button" class="btn btn-primary btn-xl">Daftar Sekarang</button>
-                </div>
+				<?php echo $reg_form_content; ?>
             </div>
         </div>
     </div>

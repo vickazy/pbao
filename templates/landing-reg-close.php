@@ -6,8 +6,8 @@
  * Time: 5:51 PM
  */
 
-if(!defined('ABSPATH')){
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } ?>
 
-
+<div class="notice"><?php echo $message; ?></div>

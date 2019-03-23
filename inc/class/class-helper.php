@@ -31,7 +31,9 @@ if ( ! class_exists( 'Class_Helper' ) ) {
 		 * @return array
 		 */
 		static function is_reg_open() {
-			$result        = [];
+			$result        = [
+				'message' => ''
+			];
 			$qAllAngakatan = new WP_Query( array(
 				'post_type'      => 'angkatan',
 				'orderby'        => 'date',
@@ -85,6 +87,58 @@ if ( ! class_exists( 'Class_Helper' ) ) {
 			wp_reset_query();
 
 			return $result;
+		}
+
+		/**
+		 * Get serialized value
+		 *
+		 * @param $objs
+		 * @param $key
+		 *
+		 * @return array|bool|mixed
+		 */
+		static function get_serialized_val( $objs, $key ) {
+			$result = false;
+			$temres = array();
+			foreach ( $objs as $obj ) {
+				if ( $obj['name'] == $key ) {
+					$temres[] = $obj['value'];
+				}
+			}
+			$countarr = count( $temres );
+			if ( $countarr > 0 ) {
+				$result = count( $temres ) > 1 ? $temres : $temres[0];
+			}
+
+			return $result;
+		}
+
+		/**
+		 * Generate random string
+		 *
+		 * @param int $length
+		 * @param bool $numbers_only
+		 *
+		 * @return string
+		 */
+		static function generate_random_string( $length = 7, $numbers_only = false ) {
+			$characters       = $numbers_only ? '1234567890' : '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+			$charactersLength = strlen( $characters );
+			$randomString     = '';
+			for ( $i = 0; $i < $length; $i ++ ) {
+				$randomString .= $characters[ rand( 0, $charactersLength - 1 ) ];
+			}
+
+			return $randomString;
+		}
+
+		/**
+		 * Generate random unique key
+		 *
+		 * @return string
+		 */
+		static function generate_unique_key() {
+			return md5( uniqid( rand(), true ) );
 		}
 	}
 }
