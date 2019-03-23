@@ -140,5 +140,42 @@ if ( ! class_exists( 'Class_Helper' ) ) {
 		static function generate_unique_key() {
 			return md5( uniqid( rand(), true ) );
 		}
+
+		/**
+		 * Change angkatan status
+		 *
+		 * @param $angkatan_id
+		 * @param $ujk
+		 */
+		static function update_isi_angkatan( $angkatan_id, $ujk ) {
+			$status = self::is_reg_open();
+			switch ( $ujk ) {
+				case '1':
+					update_post_meta( $angkatan_id, 'ikhwan_isi', $status['ikhwan_isi'] + 1 );
+					break;
+				case '2':
+					update_post_meta( $angkatan_id, 'akhwat_isi', $status['akhwat_isi'] + 1 );
+					break;
+			}
+		}
+
+		/**
+		 * Update post meta
+		 *
+		 * @param $post_id
+		 * @param $args
+		 * @param bool $update_user
+		 */
+		static function update_fields( $post_id, $args, $update_user = false ) {
+			if ( $update_user ) {
+				foreach ( $args as $arg_key => $arg_value ) {
+					update_user_meta( $post_id, $arg_key, $arg_value );
+				}
+			} else {
+				foreach ( $args as $arg_key => $arg_value ) {
+					update_post_meta( $post_id, $arg_key, $arg_value );
+				}
+			}
+		}
 	}
 }

@@ -10,17 +10,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } ?>
 
-<div class="modal fade" id="myModal">
-    <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <form id="frmReg" method="post">
+            <form id="frmModalReg" method="post">
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title text-center">Pendaftaran</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
+                    <div class="frm-result"></div>
                     <div class="form-horizontal">
                         <!--                    <h5 class="heading first">Informasi Akun</h5>-->
                         <div class="form-group">
@@ -42,7 +42,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="control-label" for="uwa"><i
-                                                class="fab fa-whatsapp-square"></i></label>
+                                                class="fab fa-whatsapp"></i></label>
                                     <input class="form-control" id="uwa" name="uwa" placeholder="Nomor whatsapp"
                                            type="text" maxlength="15" required>
                                 </div>

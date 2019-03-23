@@ -68,31 +68,28 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 			$clean_unama  = sanitize_text_field( $unama );
 			$clean_uemail = sanitize_email( $uemail );
 			$clean_uwa    = sanitize_text_field( $uwa );
-			$clean_aaddr  = sanitize_text_field( $uaddr );
+			$clean_uaddr  = sanitize_text_field( $uaddr );
 			$clean_uwhy   = sanitize_textarea_field( $uwhy );
 
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-				if ( $clean_unama && $clean_uemail && $clean_uwa && $upass && $upass2 && $udate && $ujk && $clean_aaddr ) {
+				if ( $clean_unama && $clean_uemail && $clean_uwa && $upass && $upass2 && $udate && $ujk && $clean_uaddr ) {
 					if ( $upass == $upass2 ) {
 						if ( ! get_user_by( 'email', $clean_uemail ) ) {
 
 							//Define default response
 							$status            = Class_Helper::is_reg_open();
 							$interupt          = true;
-							$current_isi       = 0;
 							$result['message'] = "Kuota pendaftaran sudah habis";
 
 							switch ( $ujk ) {
 								case '1':
 									if ( $status['ikhwan_sisa_percent'] > 0 ) {
-										$interupt    = false;
-										$current_isi = $status['ikhwan_isi'];
+										$interupt = false;
 									}
 									break;
 								case '2':
 									if ( $status['akhwat_sisa_percent'] > 0 ) {
-										$interupt    = false;
-										$current_isi = $status['akhwat_isi'];
+										$interupt = false;
 									}
 									break;
 							}
@@ -107,22 +104,29 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 									'display_name' => $clean_unama
 								) );
 								if ( $userID ) {
-
 									$verification_key   = Class_Helper::generate_unique_key();
 									$result['is_error'] = false;
-									update_user_meta( $userID, 'verification', $verification_key );
-									update_user_meta( $userID, 'uwa', $clean_uwa );
-									update_user_meta( $userID, 'udate', $udate );
-									update_user_meta( $userID, 'ujk', $ujk );
-									update_user_meta( $userID, 'uaddr', $clean_aaddr );
-									update_user_meta( $userID, 'uwhy', $clean_uwhy );
-									update_user_meta( $userID, 'angkatan', $status['angkatan_id'] );
+									$result['message']  = "Pendaftaran sukses, silahkan periksa email untuk konfirmasi";
+
+									Class_Helper::update_fields( $userID, [
+										'verification' => $verification_key,
+										'uwa'          => $clean_uwhy,
+										'udate'        => $udate,
+										'ujk'          => $ujk,
+										'uaddr'        => $clean_uaddr,
+										'uwhy'         => $clean_uwhy,
+										'angkatan'     => $status['angkatan_id']
+									], true );
 
 									//update kuota angkatan
-//									update_isi_angkatan( $status->angkatan_id, $ujk, $curisi + 1 );
+//									Class_Helper::update_isi_angkatan( $status['angkatan_id'], $ujk );
 
+									//TODO: Save user logs
 									//Insert logs
 //									insert_log( 'welcome_new_user', $userID, $status->angkatan_id );
+
+									//TODO: Send email to user for verification
+
 
 								} else {
 									$result['message'] = "Pendaftaran gagal, silahkan hubungi admin";
@@ -138,6 +142,8 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 					$result['message'] = "Semua kolom harus diisi.";
 				}
 			}
+
+			wp_send_json( $result );
 		}
 	}
 }

@@ -280,6 +280,7 @@ section.how-to .service-box p {
 .reg .card .img-wrapper {
     padding: 25px 40px;
 }
+
 .reg .card:hover {
     background: #fdfdfd;
     transform: scale(1.1);
@@ -300,6 +301,21 @@ section.how-to .service-box p {
 
 .form-horizontal .form-group {
     margin-bottom: 5px;
+}
+
+.form-horizontal .form-group label.error {
+    /*border-left: 3px solid #ffaa77;;*/
+    font-size: 12px;
+    /*margin-top: ;*/
+    padding: 0 12px;
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    color: #ffaa77;
+}
+
+.form-horizontal .form-group label.error:first-letter {
+    border-bottom: 2px solid #ffaa77;
 }
 
 .form-horizontal .form-control {
@@ -376,6 +392,22 @@ section.how-to .service-box p {
     padding: 30px;
     border: 1px dashed #ff5555;
     background: #ffeeee;
+}
+
+.datepicker.datepicker-dropdown table th.datepicker-switch{
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 0;
+}
+
+.datepicker.datepicker-dropdown table th.dow{
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 2px solid #F05F40;
+}
+.datepicker.datepicker-dropdown table td{
+    padding: 7px 10px;
+    font-size: 14px;
 }
 .portfolio-box {
     position: relative;

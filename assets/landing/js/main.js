@@ -71,20 +71,70 @@
         scale: 0
     });
 
-    // Magnific popup calls
-    $('.popup-gallery').magnificPopup({
-        delegate: 'a',
-        type: 'image',
-        tLoading: 'Loading image #%curr%...',
-        mainClass: 'mfp-img-mobile',
-        gallery: {
-            enabled: true,
-            navigateByImgClick: true,
-            preload: [0, 1]
-        },
-        image: {
-            tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
-        }
-    });
+    $(document).ready(function () {
 
+        var dateToday = new Date();
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            endDate: dateToday,
+            autoclose: true,
+            language: 'id'
+            // startDate: '-3d'
+        });
+
+        // Registration form submitted
+        $('#frmModalReg').validate({
+            rules: {
+                upass: {
+                    minlength: 6
+                },
+                upass2: {
+                    minlength: 6,
+                    equalTo: "#upass"
+                }
+            },
+            focusInvalid: true,
+            submitHandler: function (form, e) {
+                e.preventDefault();
+                var result_elm = $(form).find('.frm-result'),
+                    buttons = $(form).find('button'),
+                    button_submit = $(form).find('button.btn-primary'),
+                    button_submit_ori_text = button_submit.html(),
+                    loading_html = '<span class="spinner-border spinner-border-sm"></span>';
+
+                result_elm.html('');
+                buttons.prop('disabled', true);
+                button_submit.html(loading_html);
+
+                $.ajax({
+                    url: obj.ajax_url,
+                    type: 'POST',
+                    data: {
+                        'action': 'ureg',
+                        'data': $(form).serializeArray()
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        buttons.prop('disabled', false);
+                        button_submit.html(button_submit_ori_text);
+                        var result_class = data.is_error ? 'alert-warning' : 'alert-success';
+                        result_elm.html('<div class="alert ' + result_class + '">' + data.message + "</div>");
+                        if (!data.is_error) {
+                            $(form).trigger('reset');
+                        }
+                    }
+                })
+            }
+        });
+
+        // Modal registration being closed
+        $('.modal').on('hidden.bs.modal', function () {
+            var form = $(this).find('form');
+            if (form) {
+                form.find('.frm-result').html('');
+                form.validate().resetForm();
+                form.trigger('reset');
+            }
+        })
+    })
 })(jQuery); // End of use strict
