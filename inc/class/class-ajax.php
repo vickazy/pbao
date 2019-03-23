@@ -119,7 +119,7 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 									], true );
 
 									//update kuota angkatan
-//									Class_Helper::update_isi_angkatan( $status['angkatan_id'], $ujk );
+									Class_Helper::update_isi_angkatan( $status['angkatan_id'], $ujk );
 
 									//TODO: Save user logs
 									//Insert logs
