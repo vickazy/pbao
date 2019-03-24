@@ -45,6 +45,8 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 		private function _register_endpoints() {
 			add_action( 'wp_ajax_ureg', [ $this, 'ureg_callback' ] );
 			add_action( 'wp_ajax_nopriv_ureg', [ $this, 'ureg_callback' ] );
+
+			add_action( 'wp_ajax_create_groups', [ $this, 'create_groups_callback' ] );
 		}
 
 		/**
@@ -143,6 +145,101 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 				}
 			}
 
+			wp_send_json( $result );
+		}
+
+		/**
+		 * Callback for creating groups
+		 */
+		function create_groups() {
+			$sObj   = $_POST['angkatan_id'];
+			$result = [ 'is_error' => true ];
+			if ( current_user_can( 'administrator' ) ) {
+				if ( $sObj ) {
+					$angkatan = get_post( $sObj );
+					if ( $angkatan->post_type == 'angkatan' && $angkatan->post_status == 'publish' ) {
+						$buka         = Class_Helper::ifield( 'buka', $angkatan->ID );
+						$kelas_dibuat = Class_Helper::ifield( 'kelas_dibuat', $angkatan->ID );
+						if ( $buka != "on" && $kelas_dibuat != "on" ) {
+							$max_per_group = Class_Helper::ifield( 'kuota_kelas', $angkatan ) ? Class_Helper::ifield( 'kuota_kelas', $angkatan ) : 100;
+							$qAllIkhwan    = new WP_User_Query( [
+								'role'       => 'Subscriber',
+								'number'     => - 1,
+								'meta_query' => [
+									[
+										'key'     => 'ujk',
+										'value'   => [ 1, 2 ],
+										'compare' => 'IN'
+									],
+									[
+										'key'   => 'angkatan',
+										'value' => $angkatan->ID
+									]
+								]
+							] );
+
+							$arrKelas      = [];
+							$arrPesertaIkh = [];
+							$arrPesertaAh  = [];
+							if ( ! empty( $qAllIkhwan->get_results() ) ) {
+								foreach ( $qAllIkhwan->get_results() as $user ) {
+									$user_id = $user->ID;
+									$ujk     = Class_Helper::ufield( 'ujk', $user_id );
+									if ( $ujk == 1 ) { //Laki-laki
+										if ( count( $arrPesertaIkh ) >= $max_per_group ) {
+											$arrKelas[]    = [
+												"jk"  => 1,
+												"ids" => $arrPesertaIkh
+											];
+											$arrPesertaIkh = [ $user_id ];
+										} else {
+											$arrPesertaIkh[] = $user_id;
+										}
+									} else if ( $ujk == 2 ) { //Perempuan
+										if ( count( $arrPesertaAh ) >= $max_per_group ) {
+											$arrKelas[]   = [
+												"jk"  => 2,
+												"ids" => $arrPesertaAh
+											];
+											$arrPesertaAh = [ $user_id ];
+										} else {
+											$arrPesertaAh[] = $user_id;
+										}
+									}
+								}
+
+								//Check if there's unused peserta
+								if ( ! empty( $arrPesertaIkh ) ) {
+									$arrKelas[] = [
+										"jk"  => 1,
+										"ids" => $arrPesertaIkh
+									];
+								}
+								if ( ! empty( $arrPesertaAh ) ) {
+									$arrKelas[] = [
+										"jk"  => 2,
+										"ids" => $arrPesertaAh
+									];
+								}
+
+								//Loop grouped user_ids
+								foreach ( $arrKelas as $datakls ) {
+									$result['items'][] = Class_Helper::generate_kelas( $datakls['ids'], $angkatan->ID, $datakls['jk'] );
+								}
+								$result['is_error'] = false;
+							}
+						} else {
+							$result['message'] = "Angkatan masih dibuka atau sudah punya kelas";
+						}
+					} else {
+						$result['message'] = "Jenis pos tidak diizinkan";
+					}
+				} else {
+					$result['message'] = "Pilih angkatan yang ingin dibuatkan grup";
+				}
+			} else {
+				$result['message'] = "Anda tidak memiliki kredibilitas.";
+			}
 			wp_send_json( $result );
 		}
 	}

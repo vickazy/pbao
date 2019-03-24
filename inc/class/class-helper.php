@@ -26,6 +26,18 @@ if ( ! class_exists( 'Class_Helper' ) ) {
 		}
 
 		/**
+		 * Get user meta value
+		 *
+		 * @param $key
+		 * @param $user_id
+		 *
+		 * @return mixed
+		 */
+		static function ufield( $key, $user_id ) {
+			return get_user_meta( $user_id, $key, true );
+		}
+
+		/**
 		 * Cek status pendaftaran, apakah ada angkatan yang dibuka atau tidak
 		 *
 		 * @return array
@@ -69,11 +81,11 @@ if ( ! class_exists( 'Class_Helper' ) ) {
 
 					$result['ikhwan_isi']          = $ikhwan_isi;
 					$result['ikhwan_kuota']        = $ikhwan_kuota;
-					$result['ikhwan_sisa_percent'] = $ikhwan_kuota > 0 ? $ikhwan_sisa * 100 / $ikhwan_kuota : 0;
+					$result['ikhwan_sisa_percent'] = $ikhwan_kuota > 0 ? number_format( $ikhwan_sisa * 100 / $ikhwan_kuota, 2 ) : 0;
 					$result['ikhwan_isi_percent']  = 100 - $result['ikhwan_sisa_percent'];
 					$result['akhwat_isi']          = $akhwat_isi;
 					$result['akhwat_kuota']        = $akhwat_kuota;
-					$result['akhwat_sisa_percent'] = $akhwat_kuota ? $akhwat_sisa * 100 / $akhwat_kuota : 0;
+					$result['akhwat_sisa_percent'] = $akhwat_kuota ? number_format( $akhwat_sisa * 100 / $akhwat_kuota, 2 ) : 0;
 					$result['akhwat_isi_percent']  = 100 - $result['akhwat_sisa_percent'];
 					if ( $result['ikhwan_sisa_percent'] <= 0 && $result['akhwat_sisa_percent'] <= 0 ) {
 						$result['is_open'] = false;
@@ -176,6 +188,47 @@ if ( ! class_exists( 'Class_Helper' ) ) {
 					update_post_meta( $post_id, $arg_key, $arg_value );
 				}
 			}
+		}
+
+		/**
+		 * Generate kelas
+		 *
+		 * @param array $users
+		 * @param $angkatan
+		 * @param int $jenis_kelamin
+		 *
+		 * @return bool|mixed
+		 */
+		static function generate_kelas( $users, $angkatan, $jenis_kelamin = 1 ) {
+			$result     = false;
+			$prefix_jk  = $jenis_kelamin == 1 ? "I" : "A";
+			$nama_kelas = "HBAO" . $angkatan . "-" . $prefix_jk . self::generate_random_string( 5, true );
+
+			$new_kelas = wp_insert_post( array(
+				'post_type'   => 'kelas',
+				'post_title'  => $nama_kelas,
+				'post_name'   => sanitize_title( $nama_kelas ),
+				'post_status' => 'publish'
+			) );
+			if ( $new_kelas ) {
+				self::update_fields( $new_kelas, [
+					'angkatan' => $angkatan,
+					'peserta'  => $users,
+					'kjk'      => $jenis_kelamin
+				] );
+				foreach ( $users as $user ) {
+					//TODO: Update user log
+//					insert_log( 'added_group', $user, $new_kelas );
+					update_user_meta( $user, 'kelas', $new_kelas );
+				}
+
+				//Update status angkatan
+				update_post_meta( $angkatan, 'kelas_dibuat', 'on' );
+
+				$result = $new_kelas;
+			}
+
+			return $result;
 		}
 	}
 }

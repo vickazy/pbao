@@ -34,6 +34,12 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 		 */
 		private $public_js = [];
 
+		private $admin_vars = [];
+
+		private $admin_css = [];
+
+		private $admin_js = [];
+
 		/**
 		 * Create instance variable
 		 *
@@ -60,6 +66,9 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 		private function __construct() {
 			$this->_map_public_assets();
 			$this->_load_public_assets();
+
+			$this->_map_admin_assets();
+			$this->_load_admin_assets();
 		}
 
 		/**
@@ -116,6 +125,52 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 			}
 
 
+		}
+
+		/**
+		 * Map admin assets
+		 */
+		private function _map_admin_assets() {
+			$this->admin_js = [
+				'angkatan' => [
+					'url'  => TEMP_URI . '/assets/admin/js/angkatan.js',
+					'rule' => [
+						'post_type' => 'angkatan'
+					]
+				]
+			];
+
+			$this->admin_vars = [
+				[ 'ajax_url' => admin_url( 'admin-ajax.php' ) ]
+			];
+		}
+
+		/**
+		 * Load admin assets
+		 */
+		private function _load_admin_assets() {
+			add_action( 'admin_enqueue_scripts', [ $this, 'admin_assets_callback' ] );
+		}
+
+		/**
+		 * Callback for loading admin assets
+		 */
+		function admin_assets_callback() {
+			global $post;
+			foreach ( $this->admin_js as $js_key => $js_obj ) {
+				if ( $js_obj['rule'] ) {
+					$filter_key   = ! empty( $js_obj['rule']['post_type'] ) ? $post->post_type : false;
+					$filter_value = ! empty( $js_obj['rule']['post_type'] ) ? $js_obj['rule']['post_type'] : false;
+
+					if ( $filter_key == $filter_value ) {
+						wp_enqueue_script( $js_key, $js_obj['url'], array( 'jquery' ), '', true );
+					}
+				}
+			}
+
+			foreach ( $this->admin_vars as $var ) {
+				wp_localize_script( 'main', 'obj', $var );
+			}
 		}
 	}
 }
