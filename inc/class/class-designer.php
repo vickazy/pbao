@@ -46,24 +46,34 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		private function __construct() {
 			$temp       = Class_Temp::init();
 			self::$temp = $temp;
-			$this->_register_global_hooks();
+			$this->_register_header_hooks();
 			$this->_register_landing_hooks();
+			$this->_register_footer_hooks();
 		}
 
+		/**
+		 * Register designer for header content
+		 */
+		private function _register_header_hooks() {
+			add_action( 'wp_head', [ $this, 'head_content_callback' ] );
+			add_action( 'header_content', [ $this, 'header_open_callback' ], 10 );
+		}
+
+		/**
+		 * Register designer for landing page
+		 */
 		private function _register_landing_hooks() {
 			add_action( 'header_content', [ $this, 'landing_top_nav_callback' ], 20 );
 			add_action( 'landing_content', [ $this, 'landing_content_callback' ], 10 );
 			add_filter( 'landing_reg_content', [ $this, 'landing_reg_content_callback' ] );
-			add_action( 'footer_content', [ $this, 'footer_landing_callback' ], 10 );
 			add_action( 'footer_content', [ $this, 'reg_modal_callback' ], 30 );
 		}
 
 		/**
-		 * Register designer hooks
+		 * Register designer for footer content
 		 */
-		private function _register_global_hooks() {
-			add_action( 'wp_head', [ $this, 'head_content_callback' ] );
-			add_action( 'header_content', [ $this, 'header_open_callback' ], 10 );
+		private function _register_footer_hooks() {
+			add_action( 'footer_content', [ $this, 'footer_content_callback' ], 10 );
 			add_action( 'footer_content', [ $this, 'footer_close_callback' ], 20 );
 		}
 
@@ -82,7 +92,7 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		}
 
 		/**
-		 * Callback for landing page top nav
+		 * Callback for header top nav
 		 */
 		function landing_top_nav_callback() {
 			echo self::$temp->render( 'landing-top-nav' );
@@ -103,7 +113,7 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		 * Callback for rendering landing page register form
 		 */
 		function landing_reg_content_callback() {
-			$reg_status = Class_Helper::is_reg_open();
+			$reg_status = is_reg_open();
 			$result     = self::$temp->render( 'landing-reg-close', [ 'message' => $reg_status['message'] ] );
 			if ( $reg_status['is_open'] ) {
 				$result = self::$temp->render( 'landing-reg-open', [
@@ -126,10 +136,11 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		}
 
 		/**
-		 * Callback for footer landing content
+		 * Callback for footer content
 		 */
-		function footer_landing_callback() {
-			echo self::$temp->render( 'footer-landing',
+		function footer_content_callback() {
+			$temp_name = is_app() ? 'footer-app' : 'footer-landing';
+			echo self::$temp->render( $temp_name,
 				[ 'footer_networks' => '&copy; ' . get_bloginfo( 'name' ) . ' ' . date( 'Y' ) ]
 			);
 		}

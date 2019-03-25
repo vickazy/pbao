@@ -28,20 +28,6 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 		private $public_js = [];
 
 		/**
-		 * Define app js files
-		 *
-		 * @var array
-		 */
-		private $app_css = [];
-
-		/**
-		 * Define app css files
-		 *
-		 * @var array
-		 */
-		private $app_js = [];
-
-		/**
 		 * Define admin css files
 		 *
 		 * @var array
@@ -84,9 +70,6 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 
 			$this->_map_admin_assets();
 			$this->_load_admin_assets();
-
-			$this->_map_app_assets();
-			$this->_load_app_assets();
 		}
 
 		/**
@@ -98,9 +81,36 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 				'bootstrap'            => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap/css/bootstrap.min.css' ],
 				'bootstrap-datepicker' => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' ],
 				'font-awesome'         => [ 'url' => TEMP_URI . '/assets/vendor/fontawesome-free/css/all.min.css' ],
-				'open-sans-gf'         => [ 'url' => 'https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' ],
-				'merry-weather-gf'     => [ 'url' => 'https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' ],
-				'main'                 => [ 'url' => TEMP_URI . '/assets/landing/css/main.css' ],
+				'open-sans-gf'         => [
+					'url'  => 'https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800',
+					'rule' => [
+						'is_app' => false
+					]
+				],
+				'merry-weather-gf'     => [
+					'url'  => 'https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic',
+					'rule' => [
+						'is_app' => false
+					]
+				],
+				'landing-main'         => [
+					'url'  => TEMP_URI . '/assets/landing/css/main.css',
+					'rule' => [
+						'is_app' => false
+					]
+				],
+				'nunito-gf'            => [
+					'url'  => 'https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i',
+					'rule' => [
+						'is_app' => true
+					]
+				],
+				'app-main'             => [
+					'url'  => TEMP_URI . '/assets/app/css/sb-admin-2.css',
+					'rule' => [
+						'is_app' => true
+					]
+				]
 			];
 
 			$this->public_js = [
@@ -111,10 +121,19 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 				'jquery-validation'          => [ 'url' => TEMP_URI . '/assets/vendor/jquery-validation/dist/jquery.validate.min.js' ],
 				'jquery-validation-local'    => [ 'url' => TEMP_URI . '/assets/vendor/jquery-validation/dist/localization/messages_id.min.js' ],
 				'scroll-reveal'              => [ 'url' => TEMP_URI . '/assets/vendor/scrollreveal/scrollreveal.min.js' ],
-				'main'                       => [
+				'landing-main'               => [
 					'url'  => TEMP_URI . '/assets/landing/js/main.js',
-					'vars' => [ 'ajax_url' => admin_url( 'admin-ajax.php' ) ]
+					'vars' => [ 'ajax_url' => admin_url( 'admin-ajax.php' ) ],
+					'rule' => [
+						'is_app' => false
+					]
 				],
+				'app-main'                   => [
+					'url'  => TEMP_URI . '/assets/app/js/sb-admin-2.js',
+					'rule' => [
+						'is_app' => true
+					]
+				]
 			];
 		}
 
@@ -130,14 +149,30 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 		 */
 		function public_assets_callback() {
 			foreach ( $this->public_js as $name => $obj ) {
-				wp_enqueue_script( $name, $obj['url'], array( 'jquery' ), '', true );
-				if ( ! empty( $obj['vars'] ) ) {
-					wp_localize_script( $name, 'obj', $obj['vars'] );
+				$filter_key   = false;
+				$filter_value = false;
+				if ( isset( $obj['rule'] ) ) {
+					$filter_key   = isset( $obj['rule']['is_app'] ) ? is_app() : false;
+					$filter_value = isset( $obj['rule']['is_app'] ) ? $obj['rule']['is_app'] : false;
+				}
+				if ( $filter_key == $filter_value ) {
+					wp_enqueue_script( $name, $obj['url'], array( 'jquery' ), '', true );
+					if ( isset( $obj['vars'] ) ) {
+						wp_localize_script( $name, 'obj', $obj['vars'] );
+					}
 				}
 			}
 
 			foreach ( $this->public_css as $name => $obj ) {
-				wp_enqueue_style( $name, $obj['url'] );
+				$filter_key   = false;
+				$filter_value = false;
+				if ( isset( $obj['rule'] ) ) {
+					$filter_key   = isset( $obj['rule']['is_app'] ) ? is_app() : 'a';
+					$filter_value = isset( $obj['rule']['is_app'] ) ? $obj['rule']['is_app'] : false;
+				}
+				if ( $filter_key == $filter_value ) {
+					wp_enqueue_style( $name, $obj['url'] );
+				}
 			}
 		}
 
@@ -170,45 +205,21 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 		 */
 		function admin_assets_callback() {
 			global $post;
-			foreach ( $this->admin_js as $js_key => $js_obj ) {
-				if ( $js_obj['rule'] ) {
-					$filter_key   = ! empty( $js_obj['rule']['post_type'] ) ? ( is_object( $post ) ? $post->post_type : false ) : false;
-					$filter_value = ! empty( $js_obj['rule']['post_type'] ) ? $js_obj['rule']['post_type'] : false;
+			foreach ( $this->admin_js as $js_key => $obj ) {
+				$filter_key   = false;
+				$filter_value = false;
+				if ( isset( $obj['rule'] ) ) {
+					$filter_key   = isset( $obj['rule']['post_type'] ) ? ( is_object( $post ) ? $post->post_type : false ) : false;
+					$filter_value = isset( $obj['rule']['post_type'] ) ? $obj['rule']['post_type'] : false;
+				}
 
-					if ( $filter_key == $filter_value ) {
-						wp_enqueue_script( $js_key, $js_obj['url'], array( 'jquery' ), '', true );
-						if ( ! empty( $js_obj['vars'] ) ) {
-							wp_localize_script( $js_key, 'obj', $js_obj['vars'] );
-						}
+				if ( $filter_key == $filter_value ) {
+					wp_enqueue_script( $js_key, $obj['url'], array( 'jquery' ), '', true );
+					if ( isset( $obj['vars'] ) ) {
+						wp_localize_script( $js_key, 'obj', $obj['vars'] );
 					}
 				}
 			}
-		}
-
-		private function _map_app_assets() {
-			$this->app_css = [
-				'stylesheet'           => [ 'url' => get_stylesheet_uri() ],
-				'bootstrap'            => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap/css/bootstrap.min.css' ],
-				'bootstrap-datepicker' => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' ],
-				'font-awesome'         => [ 'url' => TEMP_URI . '/assets/vendor/fontawesome-free/css/all.min.css' ],
-				'open-sans-gf'         => [ 'url' => 'https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' ],
-				'merry-weather-gf'     => [ 'url' => 'https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' ],
-				'main'                 => [ 'url' => TEMP_URI . '/assets/landing/css/main.css' ],
-			];
-
-			$this->app_js = [
-				'bootstrap'                  => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' ],
-				'bootstrap-datepicker'       => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' ],
-				'bootstrap-datepicker-local' => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap-datepicker/dist/locales/bootstrap-datepicker.id.min.js' ],
-				'jquery-easing'              => [ 'url' => TEMP_URI . '/assets/vendor/jquery-easing/jquery.easing.min.js' ],
-				'jquery-validation'          => [ 'url' => TEMP_URI . '/assets/vendor/jquery-validation/dist/jquery.validate.min.js' ],
-				'jquery-validation-local'    => [ 'url' => TEMP_URI . '/assets/vendor/jquery-validation/dist/localization/messages_id.min.js' ],
-				'scroll-reveal'              => [ 'url' => TEMP_URI . '/assets/vendor/scrollreveal/scrollreveal.min.js' ],
-				'main'                       => [
-					'url'  => TEMP_URI . '/assets/landing/js/main.js',
-					'vars' => [ 'ajax_url' => admin_url( 'admin-ajax.php' ) ]
-				],
-			];
 		}
 	}
 }

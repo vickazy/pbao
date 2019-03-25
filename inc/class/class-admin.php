@@ -163,30 +163,30 @@ if ( ! class_exists( 'Class_Admin' ) ) {
 		function manage_angkatan_columns_callback( $column, $post_id ) {
 			switch ( $column ) {
 				case 'amount':
-					$ikhwan = Class_Helper::ifield( 'kuota_ikhwan', $post_id );
-					$akhwat = Class_Helper::ifield( 'kuota_akhwat', $post_id );
+					$ikhwan = ifield( 'kuota_ikhwan', $post_id );
+					$akhwat = ifield( 'kuota_akhwat', $post_id );
 					$str    = $ikhwan ? "Ikhwan " . number_format( $ikhwan ) . " orang" : "";
 					$str    .= $akhwat ? ( $ikhwan ? " dan akhwat " . number_format( $akhwat ) . " orang" : "Akhwat " . number_format( $akhwat ) . " orang" ) : "";
 					echo $str;
 					break;
 				case 'status':
-					$buka                = Class_Helper::ifield( 'buka', $post_id );
-					$pembukaan_timestamp = Class_Helper::ifield( 'pembukaan', $post_id );
+					$buka                = ifield( 'buka', $post_id );
+					$pembukaan_timestamp = ifield( 'pembukaan', $post_id );
 					if ( $pembukaan_timestamp ) {
 						$readable_pembukaan = date( 'j F Y, H:i:s T', $pembukaan_timestamp );
 						$now_timestamp      = strtotime( 'now' );
 						if ( $pembukaan_timestamp > $now_timestamp ) {
 							echo "Akan dibuka pada " . $readable_pembukaan;
 						} else {
-							$mulai = Class_Helper::ifield( 'mulai', $post_id );
+							$mulai = ifield( 'mulai', $post_id );
 							echo $buka == "on" ? "<span style=\"font-weight: bold; color: #00a65a\">Dibuka</span>" : ( $mulai ? "<span style=\"font-weight: bold; color: #00a65a\">Sedang Berlangsung</span>" : "<span style=\"font-weight: bold; color: #a60000\">Ditutup</span>" );
 						}
 					}
 					break;
 				case 'action':
-					$buka         = Class_Helper::ifield( 'buka', $post_id );
-					$kelas_dibuat = Class_Helper::ifield( 'kelas_dibuat', $post_id );
-					$mulai        = Class_Helper::ifield( 'mulai', $post_id );
+					$buka         = ifield( 'buka', $post_id );
+					$kelas_dibuat = ifield( 'kelas_dibuat', $post_id );
+					$mulai        = ifield( 'mulai', $post_id );
 					if ( $buka != "on" && $kelas_dibuat != "on" && get_post_status( $post_id ) == 'publish' ) {
 						echo "<button type='button' class=\"bkel button button-primary\" data-id=\"$post_id\">Bentuk Kelas</button>";
 					} elseif ( $kelas_dibuat == "on" && $mulai != "on" ) {
@@ -230,24 +230,24 @@ if ( ! class_exists( 'Class_Admin' ) ) {
 		function manage_kelas_columns_callback( $column, $post_id ) {
 			switch ( $column ) {
 				case 'angkatan':
-					$angkatan = Class_Helper::ifield( 'angkatan', $post_id );
+					$angkatan = ifield( 'angkatan', $post_id );
 					if ( $angkatan ) {
 						echo "<a href=\"" . get_edit_post_link( $angkatan ) . "\">" . get_the_title( $angkatan ) . "</a>";
 					}
 					break;
 				case 'khusus':
-					$kjk = Class_Helper::ifield( 'kjk', $post_id );
+					$kjk = ifield( 'kjk', $post_id );
 					if ( $kjk ) {
 						echo $kjk == 1 ? "Kelas Ikhwan" : "Kelas Akhwat";
 					}
 					break;
 				case 'kuota':
-					$peserta = Class_Helper::ifield( 'peserta', $post_id );
+					$peserta = ifield( 'peserta', $post_id );
 					echo $peserta ? count( $peserta ) . " Orang" : "0";
 					break;
 				case 'jam':
-					$mulai   = Class_Helper::ifield( 'jam_mulai', $post_id );
-					$selesai = Class_Helper::ifield( 'jam_selesai', $post_id );
+					$mulai   = ifield( 'jam_mulai', $post_id );
+					$selesai = ifield( 'jam_selesai', $post_id );
 					echo $mulai && $selesai ? $mulai . " - " . $selesai : "-";
 					break;
 				default :

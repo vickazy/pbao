@@ -57,15 +57,15 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 
 			$sObj   = ! empty( $_POST['data'] ) ? $_POST['data'] : false;
 			$usObj  = maybe_unserialize( $sObj );
-			$unama  = Class_Helper::get_serialized_val( $usObj, 'unama' );
-			$uemail = Class_Helper::get_serialized_val( $usObj, 'uemail' );
-			$uwa    = Class_Helper::get_serialized_val( $usObj, 'uwa' );
-			$upass  = Class_Helper::get_serialized_val( $usObj, 'upass' );
-			$upass2 = Class_Helper::get_serialized_val( $usObj, 'upass2' );
-			$udate  = Class_Helper::get_serialized_val( $usObj, 'udate' );
-			$ujk    = Class_Helper::get_serialized_val( $usObj, 'ujk' );
-			$uaddr  = Class_Helper::get_serialized_val( $usObj, 'uaddr' );
-			$uwhy   = Class_Helper::get_serialized_val( $usObj, 'uwhy' );
+			$unama  = get_serialized_val( $usObj, 'unama' );
+			$uemail = get_serialized_val( $usObj, 'uemail' );
+			$uwa    = get_serialized_val( $usObj, 'uwa' );
+			$upass  = get_serialized_val( $usObj, 'upass' );
+			$upass2 = get_serialized_val( $usObj, 'upass2' );
+			$udate  = get_serialized_val( $usObj, 'udate' );
+			$ujk    = get_serialized_val( $usObj, 'ujk' );
+			$uaddr  = get_serialized_val( $usObj, 'uaddr' );
+			$uwhy   = get_serialized_val( $usObj, 'uwhy' );
 
 			$clean_unama  = sanitize_text_field( $unama );
 			$clean_uemail = sanitize_email( $uemail );
@@ -79,7 +79,7 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 						if ( ! get_user_by( 'email', $clean_uemail ) ) {
 
 							//Define default response
-							$status            = Class_Helper::is_reg_open();
+							$status            = is_reg_open();
 							$interupt          = true;
 							$result['message'] = "Kuota pendaftaran sudah habis";
 
@@ -96,7 +96,7 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 									break;
 							}
 							if ( ! $interupt ) {
-								$username = PREFIX . "-" . Class_Helper::generate_random_string( 7 );
+								$username = PREFIX . "-" . generate_random_string( 7 );
 								$userID   = wp_insert_user( array(
 									'user_login'   => $username,
 									'user_pass'    => $upass,
@@ -106,11 +106,11 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 									'display_name' => $clean_unama
 								) );
 								if ( $userID ) {
-									$verification_key   = Class_Helper::generate_unique_key();
+									$verification_key   = generate_unique_key();
 									$result['is_error'] = false;
 									$result['message']  = "Pendaftaran sukses, silahkan periksa email untuk konfirmasi";
 
-									Class_Helper::update_fields( $userID, [
+									update_fields( $userID, [
 										'verification' => $verification_key,
 										'uwa'          => $clean_uwhy,
 										'udate'        => $udate,
@@ -121,7 +121,7 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 									], true );
 
 									//update kuota angkatan
-									Class_Helper::update_isi_angkatan( $status['angkatan_id'], $ujk );
+									update_isi_angkatan( $status['angkatan_id'], $ujk );
 
 									//TODO: Save user logs
 									//Insert logs
@@ -158,10 +158,10 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 				if ( $sObj ) {
 					$angkatan = get_post( $sObj );
 					if ( $angkatan->post_type == 'angkatan' && $angkatan->post_status == 'publish' ) {
-						$buka         = Class_Helper::ifield( 'buka', $angkatan->ID );
-						$kelas_dibuat = Class_Helper::ifield( 'kelas_dibuat', $angkatan->ID );
+						$buka         = ifield( 'buka', $angkatan->ID );
+						$kelas_dibuat = ifield( 'kelas_dibuat', $angkatan->ID );
 						if ( $buka != "on" && $kelas_dibuat != "on" ) {
-							$max_per_group = Class_Helper::ifield( 'kuota_kelas', $angkatan ) ? Class_Helper::ifield( 'kuota_kelas', $angkatan ) : 100;
+							$max_per_group = ifield( 'kuota_kelas', $angkatan ) ? ifield( 'kuota_kelas', $angkatan ) : 100;
 							$qAllIkhwan    = new WP_User_Query( [
 								'role'       => 'Subscriber',
 								'number'     => - 1,
@@ -184,7 +184,7 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 							if ( ! empty( $qAllIkhwan->get_results() ) ) {
 								foreach ( $qAllIkhwan->get_results() as $user ) {
 									$user_id = $user->ID;
-									$ujk     = Class_Helper::ufield( 'ujk', $user_id );
+									$ujk     = ufield( 'ujk', $user_id );
 									if ( $ujk == 1 ) { //Laki-laki
 										if ( count( $arrPesertaIkh ) >= $max_per_group ) {
 											$arrKelas[]    = [
@@ -224,7 +224,7 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 
 								//Loop grouped user_ids
 								foreach ( $arrKelas as $datakls ) {
-									$result['items'][] = Class_Helper::generate_kelas( $datakls['ids'], $angkatan->ID, $datakls['jk'] );
+									$result['items'][] = generate_kelas( $datakls['ids'], $angkatan->ID, $datakls['jk'] );
 								}
 								$result['is_error'] = false;
 							}

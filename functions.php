@@ -12,3 +12,4 @@ defined( 'TEMP_PATH' ) || define( 'TEMP_PATH', get_theme_file_path() );
 defined( 'PREFIX' ) || define( 'PREFIX', 'PBAO' );
 
 require_once TEMP_PATH . '/inc/class/class-main.php';
+require_once TEMP_PATH . '/inc/func-helper.php';

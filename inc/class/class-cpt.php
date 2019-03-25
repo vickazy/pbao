@@ -231,7 +231,7 @@ if ( ! class_exists( 'Class_CPT' ) ) {
 				'priority'     => 'high',
 				'show_names'   => true, // Show field names on the left
 			) );
-			$ketua_kelas_options = Class_Helper::get_ketua_kelas();
+			$ketua_kelas_options = get_ketua_kelas();
 			$cmb->add_field( array(
 				'name'             => __( 'Ketua Kelas' ),
 				'id'               => 'ketua_kelas',
