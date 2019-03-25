@@ -28,6 +28,20 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 		private $public_js = [];
 
 		/**
+		 * Define app js files
+		 *
+		 * @var array
+		 */
+		private $app_css = [];
+
+		/**
+		 * Define app css files
+		 *
+		 * @var array
+		 */
+		private $app_js = [];
+
+		/**
 		 * Define admin css files
 		 *
 		 * @var array
@@ -70,6 +84,9 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 
 			$this->_map_admin_assets();
 			$this->_load_admin_assets();
+
+			$this->_map_app_assets();
+			$this->_load_app_assets();
 		}
 
 		/**
@@ -166,6 +183,32 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 					}
 				}
 			}
+		}
+
+		private function _map_app_assets() {
+			$this->app_css = [
+				'stylesheet'           => [ 'url' => get_stylesheet_uri() ],
+				'bootstrap'            => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap/css/bootstrap.min.css' ],
+				'bootstrap-datepicker' => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' ],
+				'font-awesome'         => [ 'url' => TEMP_URI . '/assets/vendor/fontawesome-free/css/all.min.css' ],
+				'open-sans-gf'         => [ 'url' => 'https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' ],
+				'merry-weather-gf'     => [ 'url' => 'https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' ],
+				'main'                 => [ 'url' => TEMP_URI . '/assets/landing/css/main.css' ],
+			];
+
+			$this->app_js = [
+				'bootstrap'                  => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' ],
+				'bootstrap-datepicker'       => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' ],
+				'bootstrap-datepicker-local' => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap-datepicker/dist/locales/bootstrap-datepicker.id.min.js' ],
+				'jquery-easing'              => [ 'url' => TEMP_URI . '/assets/vendor/jquery-easing/jquery.easing.min.js' ],
+				'jquery-validation'          => [ 'url' => TEMP_URI . '/assets/vendor/jquery-validation/dist/jquery.validate.min.js' ],
+				'jquery-validation-local'    => [ 'url' => TEMP_URI . '/assets/vendor/jquery-validation/dist/localization/messages_id.min.js' ],
+				'scroll-reveal'              => [ 'url' => TEMP_URI . '/assets/vendor/scrollreveal/scrollreveal.min.js' ],
+				'main'                       => [
+					'url'  => TEMP_URI . '/assets/landing/js/main.js',
+					'vars' => [ 'ajax_url' => admin_url( 'admin-ajax.php' ) ]
+				],
+			];
 		}
 	}
 }
