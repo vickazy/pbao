@@ -202,7 +202,7 @@ if ( ! class_exists( 'Class_Helper' ) ) {
 		static function generate_kelas( $users, $angkatan, $jenis_kelamin = 1 ) {
 			$result     = false;
 			$prefix_jk  = $jenis_kelamin == 1 ? "I" : "A";
-			$nama_kelas = "HBAO" . $angkatan . "-" . $prefix_jk . self::generate_random_string( 5, true );
+			$nama_kelas = PREFIX . $angkatan . "-" . $prefix_jk . self::generate_random_string( 5, true );
 
 			$new_kelas = wp_insert_post( array(
 				'post_type'   => 'kelas',
@@ -212,9 +212,11 @@ if ( ! class_exists( 'Class_Helper' ) ) {
 			) );
 			if ( $new_kelas ) {
 				self::update_fields( $new_kelas, [
-					'angkatan' => $angkatan,
-					'peserta'  => $users,
-					'kjk'      => $jenis_kelamin
+					'angkatan'    => $angkatan,
+					'peserta'     => $users,
+					'kjk'         => $jenis_kelamin,
+					'jam_mulai'   => '15:00',
+					'jam_selesai' => '12:00'
 				] );
 				foreach ( $users as $user ) {
 					//TODO: Update user log

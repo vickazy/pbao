@@ -215,10 +215,6 @@ if ( ! class_exists( 'Class_CPT' ) ) {
 				'publicly_queryable'  => false,
 				'capability_type'     => 'page',
 				'menu_icon'           => 'dashicons-groups',
-//				'capabilities'        => [
-//					'create_posts' => false,
-//				],
-
 			];
 			register_post_type( 'kelas', $args_kelas );
 		}

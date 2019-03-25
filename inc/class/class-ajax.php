@@ -96,7 +96,7 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 									break;
 							}
 							if ( ! $interupt ) {
-								$username = "PBAO-" . Class_Helper::generate_random_string( 7 );
+								$username = PREFIX . "-" . Class_Helper::generate_random_string( 7 );
 								$userID   = wp_insert_user( array(
 									'user_login'   => $username,
 									'user_pass'    => $upass,

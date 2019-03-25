@@ -73,6 +73,9 @@ if ( ! class_exists( 'Class_Admin' ) ) {
 		private function _customize_table_columns() {
 			add_filter( 'manage_angkatan_posts_columns', [ $this, 'manage_angkatan_column_title_callback' ] );
 			add_action( 'manage_angkatan_posts_custom_column', [ $this, 'manage_angkatan_columns_callback' ], 10, 2 );
+
+			add_filter( 'manage_kelas_posts_columns', [ $this, 'manage_kelas_column_title_callback' ] );
+			add_action( 'manage_kelas_posts_custom_column', [ $this, 'manage_kelas_columns_callback' ], 10, 2 );
 		}
 
 		/**
@@ -148,6 +151,61 @@ if ( ! class_exists( 'Class_Admin' ) ) {
 					} elseif ( $mulai ) {
 						echo "<a href=\"#\">Lihat grup</a>";
 					}
+					break;
+				default :
+					break;
+			}
+		}
+
+		/**
+		 * Callback for customizing kelas column title
+		 *
+		 * @param $columns
+		 *
+		 * @return array
+		 */
+		function manage_kelas_column_title_callback( $columns ) {
+			$columns = array(
+				'cb'       => '<input type="checkbox" />',
+				'title'    => __( "Nama" ),
+				'angkatan' => __( 'Angkatan' ),
+				'khusus'   => __( 'Khusus' ),
+				'kuota'    => __( 'Kuota' ),
+				'jam'      => __( 'Waktu' ),
+				'date'     => __( "Dibuat" ),
+			);
+
+			return $columns;
+		}
+
+		/**
+		 * Callback for customizing kelas column
+		 *
+		 * @param $column
+		 * @param $post_id
+		 */
+		function manage_kelas_columns_callback( $column, $post_id ) {
+			switch ( $column ) {
+				case 'angkatan':
+					$angkatan = Class_Helper::ifield( 'angkatan', $post_id );
+					if ( $angkatan ) {
+						echo "<a href=\"" . get_edit_post_link( $angkatan ) . "\">" . get_the_title( $angkatan ) . "</a>";
+					}
+					break;
+				case 'khusus':
+					$kjk = Class_Helper::ifield( 'kjk', $post_id );
+					if ( $kjk ) {
+						echo $kjk == 1 ? "Kelas Ikhwan" : "Kelas Akhwat";
+					}
+					break;
+				case 'kuota':
+					$peserta = Class_Helper::ifield( 'peserta', $post_id );
+					echo $peserta ? count( $peserta ) . " Orang" : "0";
+					break;
+				case 'jam':
+					$mulai   = Class_Helper::ifield( 'jam_mulai', $post_id );
+					$selesai = Class_Helper::ifield( 'jam_selesai', $post_id );
+					echo $mulai && $selesai ? $mulai . " - " . $selesai : "-";
 					break;
 				default :
 					break;
