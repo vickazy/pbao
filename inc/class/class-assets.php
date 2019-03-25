@@ -34,10 +34,18 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 		 */
 		private $public_js = [];
 
-		private $admin_vars = [];
-
+		/**
+		 * Define admin css files
+		 *
+		 * @var array
+		 */
 		private $admin_css = [];
 
+		/**
+		 * Define admin js files
+		 *
+		 * @var array
+		 */
 		private $admin_js = [];
 
 		/**
@@ -136,12 +144,11 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 					'url'  => TEMP_URI . '/assets/admin/js/angkatan.js',
 					'rule' => [
 						'post_type' => 'angkatan'
+					],
+					'vars' => [
+						'ajax_url' => admin_url( 'admin-ajax.php' )
 					]
 				]
-			];
-
-			$this->admin_vars = [
-				[ 'ajax_url' => admin_url( 'admin-ajax.php' ) ]
 			];
 		}
 
@@ -164,12 +171,11 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 
 					if ( $filter_key == $filter_value ) {
 						wp_enqueue_script( $js_key, $js_obj['url'], array( 'jquery' ), '', true );
+						if ( ! empty( $js_obj['vars'] ) ) {
+							wp_localize_script( $js_key, 'obj', $js_obj['vars'] );
+						}
 					}
 				}
-			}
-
-			foreach ( $this->admin_vars as $var ) {
-				wp_localize_script( 'main', 'obj', $var );
 			}
 		}
 	}

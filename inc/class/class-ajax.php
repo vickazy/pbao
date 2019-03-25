@@ -151,7 +151,7 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 		/**
 		 * Callback for creating groups
 		 */
-		function create_groups() {
+		function create_groups_callback() {
 			$sObj   = $_POST['angkatan_id'];
 			$result = [ 'is_error' => true ];
 			if ( current_user_can( 'administrator' ) ) {
