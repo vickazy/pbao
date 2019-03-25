@@ -200,8 +200,7 @@ if ( ! class_exists( 'Class_CPT' ) ) {
 					'singular_name' => _x( 'Kelas', 'Post Type Singular Name' ),
 				],
 				'supports'            => [
-					'title',
-					'thumbnail',
+					'none',
 				],
 				'taxonomies'          => [],
 				'hierarchical'        => false,
