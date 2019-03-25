@@ -37,10 +37,26 @@ if ( ! class_exists( 'Class_Admin' ) ) {
 		 * Class_Admin constructor.
 		 */
 		private function __construct() {
+			$this->_remove_page_support();
 			$this->_add_theme_support();
 			$this->_register_navmenu();
 			$this->_customize_table_columns();
 			$this->_rename_user_roles();
+			$this->_filter_authentication();
+		}
+
+		/**
+		 * Remove page support
+		 */
+		private function _remove_page_support() {
+			add_action( 'admin_init', [ $this, '_remove_page_support_callback' ] );
+		}
+
+		/**
+		 * Filter user who loggedin into wp-admin
+		 */
+		private function _filter_authentication() {
+			add_action( 'init', [ $this, 'filter_authentication_callback' ] );
 		}
 
 		/**
@@ -76,6 +92,33 @@ if ( ! class_exists( 'Class_Admin' ) ) {
 
 			add_filter( 'manage_kelas_posts_columns', [ $this, 'manage_kelas_column_title_callback' ] );
 			add_action( 'manage_kelas_posts_custom_column', [ $this, 'manage_kelas_columns_callback' ], 10, 2 );
+		}
+
+		/**
+		 * Callback for removing page support
+		 */
+		function _remove_page_support_callback() {
+			$post_id = ! empty( $_GET['post'] ) ? $_GET['post'] : false;
+			if ( ! $post_id ) {
+				return;
+			}
+
+			$template_file = get_post_meta( $post_id, '_wp_page_template', true );
+
+			if ( $template_file ) { // edit the template name
+				remove_post_type_support( 'page', 'editor' );
+			}
+		}
+
+		/**
+		 * Callback for filtering user who can login into wp-admin
+		 */
+		function filter_authentication_callback() {
+			if ( is_admin() && ! current_user_can( 'administrator' ) && ! ( defined( DOING_AJAX ) && DOING_AJAX ) ) {
+				session_destroy();
+				wp_redirect( home_url() );
+				exit;
+			}
 		}
 
 		/**

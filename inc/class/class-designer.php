@@ -46,21 +46,25 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		private function __construct() {
 			$temp       = Class_Temp::init();
 			self::$temp = $temp;
-			$this->register_hooks();
+			$this->_register_global_hooks();
+			$this->_register_landing_hooks();
+		}
+
+		private function _register_landing_hooks() {
+			add_action( 'header_content', [ $this, 'landing_top_nav_callback' ], 20 );
+			add_action( 'landing_content', [ $this, 'landing_content_callback' ], 10 );
+			add_filter( 'landing_reg_content', [ $this, 'landing_reg_content_callback' ] );
+			add_action( 'footer_content', [ $this, 'footer_landing_callback' ], 10 );
+			add_action( 'footer_content', [ $this, 'reg_modal_callback' ], 30 );
 		}
 
 		/**
 		 * Register designer hooks
 		 */
-		private function register_hooks() {
+		private function _register_global_hooks() {
 			add_action( 'wp_head', [ $this, 'head_content_callback' ] );
 			add_action( 'header_content', [ $this, 'header_open_callback' ], 10 );
-			add_action( 'header_content', [ $this, 'landing_top_nav_callback' ], 20 );
-			add_action( 'landing_content', [ $this, 'landing_content_callback' ], 10 );
-			add_filter( 'landing_reg_content', [ $this, 'landing_reg_content_callback' ] );
-			add_action( 'footer_content', [ $this, 'footer_landing_callback' ], 10 );
 			add_action( 'footer_content', [ $this, 'footer_close_callback' ], 20 );
-			add_action( 'footer_content', [ $this, 'reg_modal_callback' ], 30 );
 		}
 
 		/**
