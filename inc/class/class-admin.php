@@ -40,6 +40,14 @@ if ( ! class_exists( 'Class_Admin' ) ) {
 			$this->_add_theme_support();
 			$this->_register_navmenu();
 			$this->_customize_table_columns();
+			$this->_rename_user_roles();
+		}
+
+		/**
+		 * Rename user roles
+		 */
+		private function _rename_user_roles() {
+			add_action( 'init', [ $this, 'rename_user_roles_callback' ] );
 		}
 
 		/**
@@ -65,6 +73,19 @@ if ( ! class_exists( 'Class_Admin' ) ) {
 		private function _customize_table_columns() {
 			add_filter( 'manage_angkatan_posts_columns', [ $this, 'manage_angkatan_column_title_callback' ] );
 			add_action( 'manage_angkatan_posts_custom_column', [ $this, 'manage_angkatan_columns_callback' ], 10, 2 );
+		}
+
+		/**
+		 * Callback for renaming user roless
+		 */
+		function rename_user_roles_callback() {
+			global $wp_roles;
+			if ( ! isset( $wp_roles ) ) {
+				$wp_roles = new WP_Roles();
+			}
+			//You can use any of the roles "administrator" "editor", "author", "contributor" or "subscriber"...
+			$wp_roles->roles['subscriber']['name']  = __( 'Peserta' );
+			$wp_roles->roles['contributor']['name'] = __( 'Ketua Kelas' );
 		}
 
 		/**

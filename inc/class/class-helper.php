@@ -230,5 +230,34 @@ if ( ! class_exists( 'Class_Helper' ) ) {
 
 			return $result;
 		}
+
+		/**
+		 * Get list of ketua kelas
+		 *
+		 * @return array
+		 */
+		static function get_ketua_kelas() {
+			$result         = [];
+			$qAllKetuaKelas = array(
+				'role'   => 'Contributor',
+				'number' => - 1,
+//			'meta_query' => array(
+//				array(
+//					'key'   => 'ujk',
+//					'value' => $ujk,
+//				),
+//			)
+			);
+
+			$allKetuaKelas = new WP_User_Query( $qAllKetuaKelas );
+			if ( ! empty( $allKetuaKelas->get_results() ) ) {
+				foreach ( $allKetuaKelas->get_results() as $user ) {
+					$result[ $user->ID ] = $user->display_name;
+				}
+			}
+			wp_reset_query();
+
+			return $result;
+		}
 	}
 }
