@@ -159,7 +159,7 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 			global $post;
 			foreach ( $this->admin_js as $js_key => $js_obj ) {
 				if ( $js_obj['rule'] ) {
-					$filter_key   = ! empty( $js_obj['rule']['post_type'] ) ? $post->post_type : false;
+					$filter_key   = ! empty( $js_obj['rule']['post_type'] ) ? ( is_object( $post ) ? $post->post_type : false ) : false;
 					$filter_value = ! empty( $js_obj['rule']['post_type'] ) ? $js_obj['rule']['post_type'] : false;
 
 					if ( $filter_key == $filter_value ) {
