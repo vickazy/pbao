@@ -44,7 +44,7 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		 * Class_Designer constructor.
 		 */
 		private function __construct() {
-			$temp       = Class_Temp::init();
+			global $temp;
 			self::$temp = $temp;
 			$this->_register_header_hooks();
 			$this->_register_landing_hooks();
@@ -52,8 +52,11 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 			$this->_register_footer_hooks();
 		}
 
+		/**
+		 * Register designer for app page
+		 */
 		private function _register_app_hooks() {
-
+			add_action( 'login_content', [ $this, 'login_content_callback' ] );
 		}
 
 		/**
@@ -77,6 +80,10 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		private function _register_footer_hooks() {
 			add_action( 'footer_content', [ $this, 'footer_content_callback' ], 10 );
 			add_action( 'footer_content', [ $this, 'footer_close_callback' ], 20 );
+		}
+
+		function login_content_callback() {
+			echo self::$temp->render( 'app-login' );
 		}
 
 		/**

@@ -105,6 +105,12 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 						'is_app' => true
 					]
 				],
+				'app-login'            => [
+					'url'  => TEMP_URI . '/assets/app/css/login.css',
+					'rule' => [
+						'is_app' => true
+					]
+				],
 				'app-main'             => [
 					'url'  => TEMP_URI . '/assets/app/css/sb-admin-2.css',
 					'rule' => [

@@ -1,4 +1,4 @@
-<?php  /*Template name: Page Login */
+<?php /*Template name: Page Login */
 
 /**
  * Created by PhpStorm.
