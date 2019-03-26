@@ -123,3 +123,6 @@ if ( ! class_exists( 'Class_Temp' ) ) {
 		}
 	}
 }
+
+global $temp;
+$temp = Class_Temp::init();
