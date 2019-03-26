@@ -43,10 +43,68 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 		 * Register ajax endpoint
 		 */
 		private function _register_endpoints() {
-			add_action( 'wp_ajax_ureg', [ $this, 'ureg_callback' ] );
 			add_action( 'wp_ajax_nopriv_ureg', [ $this, 'ureg_callback' ] );
+			add_action( 'wp_ajax_ureg', [ $this, 'ureg_callback' ] );
 
+			add_action( 'wp_ajax_nopriv_ulogin', [ $this, 'ulogin_callback' ] );
+			add_action( 'wp_ajax_ulogin', [ $this, 'ulogin_callback' ] );
+
+			add_action( 'wp_ajax_nopriv_create_groups', [ $this, 'create_groups_callback' ] );
 			add_action( 'wp_ajax_create_groups', [ $this, 'create_groups_callback' ] );
+		}
+
+		/**
+		 * Callback for logging in
+		 */
+		function ulogin_callback() {
+			$result['is_error'] = true;
+			$sObj               = ! empty( $_POST['data'] ) ? $_POST['data'] : false;
+			$usObj              = maybe_unserialize( $sObj );
+			$pin                = get_serialized_val( $usObj, 'upin' );
+			$password           = get_serialized_val( $usObj, 'upass' );
+			$remember           = get_serialized_val( $usObj, 'urem' ) ? true : false;
+			$clean_pin          = sanitize_text_field( $pin );
+			$clean_password     = sanitize_text_field( $password );
+			$credential         = array(
+				'user_login'    => $clean_pin,
+				'user_password' => $clean_password,
+				'remember'      => $remember
+			);
+			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+				if ( ! $pin or ! $password ) {
+					$result['message'] = "PIN dan kata sandi harus diisi.";
+				} else {
+					if ( ! get_user_by( 'login', $pin ) ) {
+						$result['message'] = "PIN yang Anda masukkan belum terdaftar. Silahkan hubungi admin kelas!";
+					} else {
+						$user = wp_signon( $credential, false );
+						if ( is_wp_error( $user ) ) {
+							$result['message'] = "Gagal masuk, silahkan perika PIN dan kata sandi";
+						} else {
+							if ( ! in_array( 'subscriber', $user->roles ) ) {
+								$result['message'] = "Akun Anda tidak tersedia.";
+								wp_logout();
+							} else {
+								$verification = ufield( 'verification', $user->ID );
+								if ( $verification ) {
+									$result['message'] = "Silahkan verifikasi akun Anda terlebih dahulu";
+									wp_logout();
+								} else {
+									$kelas = ufield( 'kelas', $user->ID );
+									if ( ! $kelas ) {
+										$result['message'] = "Saat ini Anda belum bisa mengakses dasbor, mohon bersabar karena sedang tahap pembentukkan kelas!";
+										wp_logout();
+									} else {
+										$result['is_error'] = false;
+										$result['callback'] = home_url();
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			wp_send_json( $result );
 		}
 
 		/**
@@ -54,18 +112,17 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 		 */
 		function ureg_callback() {
 			$result['is_error'] = true;
-
-			$sObj   = ! empty( $_POST['data'] ) ? $_POST['data'] : false;
-			$usObj  = maybe_unserialize( $sObj );
-			$unama  = get_serialized_val( $usObj, 'unama' );
-			$uemail = get_serialized_val( $usObj, 'uemail' );
-			$uwa    = get_serialized_val( $usObj, 'uwa' );
-			$upass  = get_serialized_val( $usObj, 'upass' );
-			$upass2 = get_serialized_val( $usObj, 'upass2' );
-			$udate  = get_serialized_val( $usObj, 'udate' );
-			$ujk    = get_serialized_val( $usObj, 'ujk' );
-			$uaddr  = get_serialized_val( $usObj, 'uaddr' );
-			$uwhy   = get_serialized_val( $usObj, 'uwhy' );
+			$sObj               = ! empty( $_POST['data'] ) ? $_POST['data'] : false;
+			$usObj              = maybe_unserialize( $sObj );
+			$unama              = get_serialized_val( $usObj, 'unama' );
+			$uemail             = get_serialized_val( $usObj, 'uemail' );
+			$uwa                = get_serialized_val( $usObj, 'uwa' );
+			$upass              = get_serialized_val( $usObj, 'upass' );
+			$upass2             = get_serialized_val( $usObj, 'upass2' );
+			$udate              = get_serialized_val( $usObj, 'udate' );
+			$ujk                = get_serialized_val( $usObj, 'ujk' );
+			$uaddr              = get_serialized_val( $usObj, 'uaddr' );
+			$uwhy               = get_serialized_val( $usObj, 'uwhy' );
 
 			$clean_unama  = sanitize_text_field( $unama );
 			$clean_uemail = sanitize_email( $uemail );

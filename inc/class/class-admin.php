@@ -114,7 +114,7 @@ if ( ! class_exists( 'Class_Admin' ) ) {
 		 * Callback for filtering user who can login into wp-admin
 		 */
 		function filter_authentication_callback() {
-			if ( is_admin() && ! current_user_can( 'administrator' ) ) {
+			if ( is_admin() && ! current_user_can( 'administrator' ) && ! DOING_AJAX && ! defined( 'DOING_AJAX' ) ) {
 				wp_logout();
 				wp_redirect( wp_login_url() );
 //				exit;

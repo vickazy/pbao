@@ -80,6 +80,7 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 				'stylesheet'           => [ 'url' => get_stylesheet_uri() ],
 				'bootstrap'            => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap/css/bootstrap.min.css' ],
 				'bootstrap-datepicker' => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' ],
+				'bootstrap-sweetalert' => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap-sweetalert/dist/sweetalert.css' ],
 				'font-awesome'         => [ 'url' => TEMP_URI . '/assets/vendor/fontawesome-free/css/all.min.css' ],
 				'open-sans-gf'         => [
 					'url'  => 'https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800',
@@ -123,6 +124,7 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 				'bootstrap'                  => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' ],
 				'bootstrap-datepicker'       => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' ],
 				'bootstrap-datepicker-local' => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap-datepicker/dist/locales/bootstrap-datepicker.id.min.js' ],
+				'bootstrap-sweetalert'       => [ 'url' => TEMP_URI . '/assets/vendor/bootstrap-sweetalert/dist/sweetalert.min.js' ],
 				'jquery-easing'              => [ 'url' => TEMP_URI . '/assets/vendor/jquery-easing/jquery.easing.min.js' ],
 				'jquery-validation'          => [ 'url' => TEMP_URI . '/assets/vendor/jquery-validation/dist/jquery.validate.min.js' ],
 				'jquery-validation-local'    => [ 'url' => TEMP_URI . '/assets/vendor/jquery-validation/dist/localization/messages_id.min.js' ],
@@ -139,6 +141,13 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 					'rule' => [
 						'is_app' => true
 					]
+				],
+				'app-login'                  => [
+					'url'  => TEMP_URI . '/assets/app/js/login.js',
+					'vars' => [ 'ajax_url' => admin_url( 'admin-ajax.php' ) ],
+					'rule' => [
+						'_wp_page_template' => 'page-login.php'
+					]
 				]
 			];
 		}
@@ -154,12 +163,15 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 		 * Callback for loading public assets
 		 */
 		function public_assets_callback() {
+			global $post;
+			$post_id = is_object( $post ) ? $post->ID : get_the_ID();
+
 			foreach ( $this->public_js as $name => $obj ) {
 				$filter_key   = false;
 				$filter_value = false;
 				if ( isset( $obj['rule'] ) ) {
-					$filter_key   = isset( $obj['rule']['is_app'] ) ? is_app() : false;
-					$filter_value = isset( $obj['rule']['is_app'] ) ? $obj['rule']['is_app'] : false;
+					$filter_key   = isset( $obj['rule']['is_app'] ) ? is_app() : ( ifield( '_wp_page_template', $post_id ) ? ifield( '_wp_page_template', $post_id ) : false );
+					$filter_value = isset( $obj['rule']['is_app'] ) ? $obj['rule']['is_app'] : ( isset( $obj['rule']['_wp_page_template'] ) ? $obj['rule']['_wp_page_template'] : false );
 				}
 				if ( $filter_key == $filter_value ) {
 					wp_enqueue_script( $name, $obj['url'], array( 'jquery' ), '', true );
