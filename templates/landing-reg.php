@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$reg_form_content = apply_filters( 'landing_reg_content', $reg_form_content );
+$reg_form_content = apply_filters( 'landing_reg_content', null );
 ?>
 
 <section id="reg" class="reg">

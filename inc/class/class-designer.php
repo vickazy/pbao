@@ -48,7 +48,12 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 			self::$temp = $temp;
 			$this->_register_header_hooks();
 			$this->_register_landing_hooks();
+			$this->_register_app_hooks();
 			$this->_register_footer_hooks();
+		}
+
+		private function _register_app_hooks() {
+
 		}
 
 		/**
@@ -63,10 +68,7 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		 * Register designer for landing page
 		 */
 		private function _register_landing_hooks() {
-			add_action( 'header_content', [ $this, 'landing_top_nav_callback' ], 20 );
-			add_action( 'landing_content', [ $this, 'landing_content_callback' ], 10 );
 			add_filter( 'landing_reg_content', [ $this, 'landing_reg_content_callback' ] );
-			add_action( 'footer_content', [ $this, 'reg_modal_callback' ], 30 );
 		}
 
 		/**
@@ -89,24 +91,6 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		 */
 		function header_open_callback() {
 			echo self::$temp->render( 'header-open' );
-		}
-
-		/**
-		 * Callback for header top nav
-		 */
-		function landing_top_nav_callback() {
-			echo self::$temp->render( 'landing-top-nav' );
-		}
-
-		/**
-		 * Callback for landing page content
-		 */
-		function landing_content_callback() {
-			echo self::$temp->render( 'landing-masthead' );
-			echo self::$temp->render( 'landing-about' );
-			echo self::$temp->render( 'landing-how-to' );
-			echo self::$temp->render( 'landing-faq' );
-			echo self::$temp->render( 'landing-reg', [ 'reg_form_content' => '' ] );
 		}
 
 		/**
@@ -150,14 +134,6 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		 */
 		function footer_close_callback() {
 			echo self::$temp->render( 'footer-close' );
-		}
-
-
-		/**
-		 * Callback for rendering registration modal
-		 */
-		function reg_modal_callback() {
-			echo self::$temp->render( 'landing-reg-modal', [ '' ] );
 		}
 	}
 }

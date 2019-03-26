@@ -8,9 +8,21 @@
 
 get_header();
 
-/**
- * Hooked from Class_Designer::
- */
-do_action( 'landing_content' );
+global $temp;
+
+/** Masthead */
+echo $temp->render( 'landing-masthead' );
+
+/** About */
+echo $temp->render( 'landing-about' );
+
+/** How To */
+echo $temp->render( 'landing-how-to' );
+
+/** FAQs */
+echo $temp->render( 'landing-faq' );
+
+/** Register */
+echo $temp->render( 'landing-reg' );
 
 get_footer();

@@ -10,3 +10,8 @@
  * Hooked from Class_Designer::
  */
 do_action( 'footer_content' );
+
+if ( ! is_app() ) {
+	global $temp;
+	echo $temp->render( 'landing-reg-modal' );
+}

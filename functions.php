@@ -13,3 +13,6 @@ defined( 'PREFIX' ) || define( 'PREFIX', 'PBAO' );
 
 require_once TEMP_PATH . '/inc/class/class-main.php';
 require_once TEMP_PATH . '/inc/func-helper.php';
+
+global $temp;
+$temp = Class_Temp::init();
