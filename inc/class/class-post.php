@@ -12,8 +12,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'Class_Post' ) ) {
 	class Class_Post {
+
+		/**
+		 * Create instance variable
+		 *
+		 * @var null
+		 */
 		private static $instance = null;
 
+		/**
+		 * Create singleton
+		 *
+		 * @return Class_Post|null
+		 */
 		static function init() {
 			if ( self::$instance === null ) {
 				self::$instance = new self();
@@ -22,15 +33,24 @@ if ( ! class_exists( 'Class_Post' ) ) {
 			return self::$instance;
 		}
 
+		/**
+		 * Class_Post constructor.
+		 */
 		private function __construct() {
 			$this->_register_post_handler();
 		}
 
+		/**
+		 * Register post handler
+		 */
 		private function _register_post_handler() {
 			add_action( 'admin_post_nopriv_verify', [ $this, 'verify_callback' ] );
 			add_action( 'admin_post_verify', [ $this, 'verify_callback' ] );
 		}
 
+		/**
+		 * Callback for `verify` post
+		 */
 		function verify_callback() {
 			$code = ! empty( $_GET['kode'] ) ? $_GET['kode'] : false;
 			if ( $code ) {
