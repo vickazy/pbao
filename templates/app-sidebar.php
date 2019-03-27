@@ -14,10 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
+        <div class="sidebar-brand-icon">
+            <?php echo PREFIX; ?>
         </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+<!--        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>-->
     </a>
 
     <!-- Divider -->
@@ -47,7 +47,6 @@ if ( ! defined( 'ABSPATH' ) ) {
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Components:</h6>
                 <a class="collapse-item" href="buttons.html">Buttons</a>
                 <a class="collapse-item" href="cards.html">Cards</a>
             </div>
@@ -63,7 +62,6 @@ if ( ! defined( 'ABSPATH' ) ) {
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Utilities:</h6>
                 <a class="collapse-item" href="utilities-color.html">Colors</a>
                 <a class="collapse-item" href="utilities-border.html">Borders</a>
                 <a class="collapse-item" href="utilities-animation.html">Animations</a>
@@ -89,12 +87,9 @@ if ( ! defined( 'ABSPATH' ) ) {
         </a>
         <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Login Screens:</h6>
                 <a class="collapse-item" href="login.html">Login</a>
                 <a class="collapse-item" href="register.html">Register</a>
                 <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                <div class="collapse-divider"></div>
-                <h6 class="collapse-header">Other Pages:</h6>
                 <a class="collapse-item" href="404.html">404 Page</a>
                 <a class="collapse-item active" href="blank.html">Blank Page</a>
             </div>

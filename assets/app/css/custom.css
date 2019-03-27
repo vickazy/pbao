@@ -1,0 +1,17 @@
+@media (min-width: 768px) {
+    .sidebar .nav-item .collapse .collapse-inner a {
+        color: rgba(255, 255, 255, .8) !important;
+    }
+
+    .sidebar .nav-item .collapse .collapse-inner a:hover,.sidebar .nav-item .collapse .collapse-inner a.active {
+        background: transparent !important;
+        color: #fff !important;
+        font-weight: normal !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .sidebar .nav-item .collapse .collapse-inner {
+        background: #fff;
+    }
+}

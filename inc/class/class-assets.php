@@ -117,6 +117,12 @@ if ( ! class_exists( 'Class_Assets' ) ) {
 					'rule' => [
 						'is_app' => true
 					]
+				],
+				'app-custom'           => [
+					'url'  => TEMP_URI . '/assets/app/css/custom.css',
+					'rule' => [
+						'is_app' => true
+					]
 				]
 			];
 
