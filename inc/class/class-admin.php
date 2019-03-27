@@ -43,6 +43,14 @@ if ( ! class_exists( 'Class_Admin' ) ) {
 			$this->_customize_table_columns();
 			$this->_rename_user_roles();
 			$this->_filter_authentication();
+			$this->_remove_toolbar();
+		}
+
+		/**
+		 * Remove toolbar in front-end for all users
+		 */
+		private function _remove_toolbar() {
+			add_filter( 'show_admin_bar', '__return_false' );
 		}
 
 		/**
