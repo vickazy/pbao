@@ -94,7 +94,64 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		function maybe_app_sidebar_callback() {
 			if ( is_app( false ) ) {
 				echo self::$temp->render( 'app-before-sidebar' ); // div#wrapper
-				echo self::$temp->render( 'app-sidebar' );
+				echo self::$temp->render( 'app-sidebar', [
+					'links' => [
+						[
+							'icon'  => 'tachometer-alt',
+							'url'   => 'app',
+							'title' => 'Dasbor',
+						],
+						[
+							'icon'  => 'book-open',
+							'url'   => '#',
+							'title' => 'Halaqah',
+							'sub'   => [
+								[
+									'url'   => 'materi',
+									'title' => 'Materi'
+								],
+								[
+									'url'   => 'soal',
+									'title' => 'Soal'
+								],
+								[
+									'url'   => 'hasil',
+									'title' => 'Hasil'
+								]
+							]
+						],
+						[
+							'icon'  => 'chart-bar',
+							'url'   => '#',
+							'title' => 'Peringkat',
+							'sub'   => [
+								[
+									'url'   => 'angkatan',
+									'title' => 'Angkatan'
+								],
+								[
+									'url'   => 'kelas',
+									'title' => 'Kelas'
+								]
+							]
+						],
+						[
+							'icon'  => 'cog',
+							'url'   => '#',
+							'title' => 'Pengaturan',
+							'sub'   => [
+								[
+									'url'   => 'profil',
+									'title' => 'Profil'
+								],
+								[
+									'url'   => 'kata-sandi',
+									'title' => 'Kata Sandi'
+								]
+							]
+						]
+					]
+				] );
 			}
 		}
 
