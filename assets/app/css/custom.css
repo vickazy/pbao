@@ -1,9 +1,13 @@
 @media (min-width: 768px) {
+    .sidebar-dark .nav-item.active .nav-link {
+        padding-bottom: 0 !important;
+    }
+
     .sidebar .nav-item .collapse .collapse-inner a {
         color: rgba(255, 255, 255, .8) !important;
     }
 
-    .sidebar .nav-item .collapse .collapse-inner a:hover,.sidebar .nav-item .collapse .collapse-inner a.active {
+    .sidebar .nav-item .collapse .collapse-inner a:hover, .sidebar .nav-item .collapse .collapse-inner a.active {
         background: transparent !important;
         color: #fff !important;
         font-weight: normal !important;
