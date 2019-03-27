@@ -57,6 +57,11 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		 */
 		private function _register_app_hooks() {
 			add_action( 'login_content', [ $this, 'login_content_callback' ] );
+			add_action( 'header_content', [ $this, 'maybe_app_sidebar_callback' ], 20 );
+			add_action( 'header_content', [ $this, 'maybe_app_topbar_callback' ], 30 );
+			add_action( 'header_content', [ $this, 'maybe_app_content_callback' ], 40 );
+			add_action( 'footer_content', [ $this, 'maybe_app_after_content_callback' ], 5 );
+			add_action( 'footer_content', [ $this, 'maybe_app_after_footer_callback' ], 15 );
 		}
 
 		/**
@@ -82,6 +87,43 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 			add_action( 'footer_content', [ $this, 'footer_close_callback' ], 20 );
 		}
 
+		function maybe_app_sidebar_callback() {
+			if ( is_app( false ) ) {
+				echo self::$temp->render( 'app-before-sidebar' ); // div#wrapper
+				echo self::$temp->render( 'app-sidebar' );
+			}
+		}
+
+		function maybe_app_topbar_callback() {
+			if ( is_app( false ) ) {
+				echo self::$temp->render( 'app-before-topbar' ); // div#content-wrapper div#content
+				echo self::$temp->render( 'app-topbar' );
+			}
+		}
+
+		function maybe_app_content_callback() {
+			if ( is_app( false ) ) {
+				echo self::$temp->render( 'app-before-content' ); // div.container-fluid
+				echo self::$temp->render( 'app-content-title' ); // h1/
+			}
+		}
+
+		function maybe_app_after_content_callback() {
+			if ( is_app( false ) ) {
+				echo self::$temp->render( 'app-after-content' ); // /div.container-fluid
+				echo self::$temp->render( 'app-before-footer' ); // /div#content
+			}
+		}
+
+		function maybe_app_after_footer_callback() {
+			if ( is_app( false ) ) {
+				echo self::$temp->render( 'app-after-footer' ); // /div#content-wrapper /div#wrapper
+			}
+		}
+
+		/**
+		 * Register designer for login page content
+		 */
 		function login_content_callback() {
 			echo self::$temp->render( 'app-login' );
 		}

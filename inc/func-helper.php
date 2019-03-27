@@ -262,8 +262,18 @@ function get_ketua_kelas() {
 /**
  * Check current page should be treated as app page or not
  *
+ * @param bool $include_login_page
+ *
  * @return bool
  */
-function is_app() {
-	return ! is_front_page() && ! is_404() ? true : false;
+function is_app( $include_login_page = true ) {
+	$result = ! is_front_page() && ! is_404() ? true : false;
+	if ( ! $include_login_page && $result ) {
+		global $post;
+		$temp_name  = is_object( $post ) ? ifield( '_wp_page_template', $post->ID ) : false;
+		$login_temp = [ 'page-login.php', 'page-reset.php' ];
+		$result     = in_array( $temp_name, $login_temp ) ? false : true;
+	}
+
+	return $result;
 }
