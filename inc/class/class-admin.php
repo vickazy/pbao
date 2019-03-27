@@ -87,7 +87,8 @@ if ( ! class_exists( 'Class_Admin' ) ) {
 		 */
 		private function _register_navmenu() {
 			register_nav_menus( array(
-				'main_menu' => 'Main Menu',
+				'main_menu'   => 'Main Menu',
+				'app_sidebar' => 'App Sidebar'
 			) );
 		}
 
