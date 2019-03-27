@@ -60,6 +60,7 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 			add_action( 'header_content', [ $this, 'maybe_app_sidebar_callback' ], 20 );
 			add_action( 'header_content', [ $this, 'maybe_app_topbar_callback' ], 30 );
 			add_action( 'header_content', [ $this, 'maybe_app_content_callback' ], 40 );
+			add_filter( 'content_title', [ $this, 'content_title_callback' ] );
 			add_action( 'footer_content', [ $this, 'maybe_app_after_content_callback' ], 5 );
 			add_action( 'footer_content', [ $this, 'maybe_app_after_footer_callback' ], 15 );
 		}
@@ -113,8 +114,18 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		function maybe_app_content_callback() {
 			if ( is_app( false ) ) {
 				echo self::$temp->render( 'app-before-content' ); // div.container-fluid
-				echo self::$temp->render( 'app-content-title' ); // h1/
 			}
+		}
+
+		/**
+		 * Callback for rendering content title
+		 *
+		 * @param $title
+		 *
+		 * @return string
+		 */
+		function content_title_callback( $title ) {
+			return self::$temp->render( 'app-content-title', [ 'title' => $title ] ); // h1/
 		}
 
 		/**

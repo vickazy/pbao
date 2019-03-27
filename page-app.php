@@ -9,4 +9,6 @@
 
 get_header();
 
+echo apply_filters( 'content_title', 'Dasbor' );
+
 get_footer();
