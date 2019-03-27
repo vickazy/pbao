@@ -87,6 +87,9 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 			add_action( 'footer_content', [ $this, 'footer_close_callback' ], 20 );
 		}
 
+		/**
+		 * Callback for rendering app sidebar
+		 */
 		function maybe_app_sidebar_callback() {
 			if ( is_app( false ) ) {
 				echo self::$temp->render( 'app-before-sidebar' ); // div#wrapper
@@ -94,6 +97,9 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 			}
 		}
 
+		/**
+		 * Callback for rendering app topbar
+		 */
 		function maybe_app_topbar_callback() {
 			if ( is_app( false ) ) {
 				echo self::$temp->render( 'app-before-topbar' ); // div#content-wrapper div#content
@@ -101,6 +107,9 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 			}
 		}
 
+		/**
+		 * Callback for rendering app content
+		 */
 		function maybe_app_content_callback() {
 			if ( is_app( false ) ) {
 				echo self::$temp->render( 'app-before-content' ); // div.container-fluid
@@ -108,6 +117,9 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 			}
 		}
 
+		/**
+		 * Callback for rendering app footer
+		 */
 		function maybe_app_after_content_callback() {
 			if ( is_app( false ) ) {
 				echo self::$temp->render( 'app-after-content' ); // /div.container-fluid
@@ -115,6 +127,9 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 			}
 		}
 
+		/**
+		 * Callback for rendering app after footer
+		 */
 		function maybe_app_after_footer_callback() {
 			if ( is_app( false ) ) {
 				echo self::$temp->render( 'app-after-footer' ); // /div#content-wrapper /div#wrapper
