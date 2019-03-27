@@ -123,12 +123,11 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 			$ujk                = get_serialized_val( $usObj, 'ujk' );
 			$uaddr              = get_serialized_val( $usObj, 'uaddr' );
 			$uwhy               = get_serialized_val( $usObj, 'uwhy' );
-
-			$clean_unama  = sanitize_text_field( $unama );
-			$clean_uemail = sanitize_email( $uemail );
-			$clean_uwa    = sanitize_text_field( $uwa );
-			$clean_uaddr  = sanitize_text_field( $uaddr );
-			$clean_uwhy   = sanitize_textarea_field( $uwhy );
+			$clean_unama        = sanitize_text_field( $unama );
+			$clean_uemail       = sanitize_email( $uemail );
+			$clean_uwa          = sanitize_text_field( $uwa );
+			$clean_uaddr        = sanitize_text_field( $uaddr );
+			$clean_uwhy         = sanitize_textarea_field( $uwhy );
 
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 				if ( $clean_unama && $clean_uemail && $clean_uwa && $upass && $upass2 && $udate && $ujk && $clean_uaddr ) {
@@ -154,14 +153,14 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 							}
 							if ( ! $interupt ) {
 								$username = PREFIX . "-" . generate_random_string( 7 );
-								$userID   = wp_insert_user( array(
+								$userID   = wp_insert_user( [
 									'user_login'   => $username,
 									'user_pass'    => $upass,
 									'user_email'   => $clean_uemail,
 									'first_name'   => $clean_unama,
 									'nice_bane'    => sanitize_title( $unama ),
 									'display_name' => $clean_unama
-								) );
+								] );
 								if ( $userID ) {
 									$verification_key   = generate_unique_key();
 									$result['is_error'] = false;
@@ -185,8 +184,6 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 //									insert_log( 'welcome_new_user', $userID, $status->angkatan_id );
 
 									//TODO: Send email to user for verification
-
-
 								} else {
 									$result['message'] = "Pendaftaran gagal, silahkan hubungi admin";
 								}
@@ -201,7 +198,6 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 					$result['message'] = "Semua kolom harus diisi.";
 				}
 			}
-
 			wp_send_json( $result );
 		}
 
