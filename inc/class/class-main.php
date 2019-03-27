@@ -51,7 +51,7 @@ if ( ! class_exists( 'Class_Main' ) ) {
 		 * Map dependency classes
 		 */
 		private function _map_classes() {
-			$this->classes = [ 'assets', 'temp', 'designer', 'admin', 'navwalker', 'ajax', 'cpt' ];
+			$this->classes = [ 'assets', 'temp', 'designer', 'admin', 'navwalker', 'ajax', 'cpt', 'post' ];
 		}
 
 		/**
