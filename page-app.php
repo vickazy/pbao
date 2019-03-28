@@ -7,8 +7,15 @@
  * Time: 2:40 PM
  */
 
+global $temp;
 get_header();
 
-echo apply_filters( 'content_title', 'Dasbor' );
+while ( have_posts() ) : the_post();
+
+	echo apply_filters( 'content_title', 'Dasbor' );
+
+	echo $temp->render( 'app-dashboard-quick-result' );
+
+endwhile;
 
 get_footer();
