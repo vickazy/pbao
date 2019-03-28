@@ -16,6 +16,8 @@ while ( have_posts() ) : the_post();
 
 	echo $temp->render( 'app-dashboard-quick-result' );
 
+	echo $temp->render( 'app-dashboard-chart' );
+
 endwhile;
 
 get_footer();
