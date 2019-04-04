@@ -96,7 +96,7 @@ if ( ! class_exists( 'Class_Ajax' ) ) {
 										wp_logout();
 									} else {
 										$result['is_error'] = false;
-										$result['callback'] = home_url();
+										$result['callback'] = home_url('app');
 									}
 								}
 							}
