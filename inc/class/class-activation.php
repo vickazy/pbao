@@ -45,12 +45,33 @@ if ( ! class_exists( 'Class_Activation' ) ) {
 		 */
 		private function _register_custom_table() {
 			global $wpdb;
+			$charset_collate = $wpdb->get_charset_collate();
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			$table_name = $wpdb->prefix . "materi";
-			$sql        = "CREATE TABLE $table_name (id int(10) unsigned NOT NULL AUTO_INCREMENT, identifier varchar(255) NOT NULL, translation varchar(255) NOT NULL, lang varchar(5) NOT NULL, notes varchar(255) DEFAULT NULL, PRIMARY KEY  (id), KEY Index_2 (lang), KEY Index_3 (identifier)) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			dbDelta( $sql );
+			$table_materi = $wpdb->prefix . "materi";
+			$table_logs   = $wpdb->prefix . "logs";
+			$sql_logs     = "CREATE TABLE $table_logs (
+		id mediumint(9) NOT NULL AUTO_INCREMENT,
+		user_id mediumint(9) NOT NULL,
+		time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+		title varchar(100) NOT NULL,
+		detail text NOT NULL,
+		object mediumint(9) NULL,
+		PRIMARY KEY (id)
+	) $charset_collate;";
+			$sql_materi   = "CREATE TABLE $table_materi (
+		id mediumint(9) NOT NULL AUTO_INCREMENT,
+		halaqah_id mediumint(9) NOT NULL,
+		user_id mediumint(9) NOT NULL,
+		time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+		title varchar(100) NOT NULL,
+		questions text NOT NULL,
+		url text NOT NULL,
+		images text NOT NULL,
+		status tinytext NOT NULL,
+		PRIMARY KEY (id)
+	) $charset_collate;";
+			dbDelta( $sql_materi );
+			dbDelta( $sql_logs );
 		}
 	}
 }
-
-Class_Activation::init();

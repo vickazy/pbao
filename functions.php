@@ -13,3 +13,9 @@ defined( 'PREFIX' ) || define( 'PREFIX', 'PBAO' );
 
 require_once TEMP_PATH . '/inc/class/class-main.php';
 require_once TEMP_PATH . '/inc/func-helper.php';
+
+add_action( 'after_switch_theme', 'include_activator' );
+
+function include_activator() {
+	Class_Activation::init();
+}
