@@ -57,6 +57,7 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		 */
 		private function _register_app_hooks() {
 			add_action( 'login_content', [ $this, 'login_content_callback' ] );
+			add_action( 'header_content', [ $this, 'maybe_check_authentication_callback' ], 5 );
 			add_action( 'header_content', [ $this, 'maybe_app_sidebar_callback' ], 20 );
 			add_action( 'header_content', [ $this, 'maybe_app_topbar_callback' ], 30 );
 			add_action( 'header_content', [ $this, 'maybe_app_content_callback' ], 40 );
@@ -86,6 +87,21 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		private function _register_footer_hooks() {
 			add_action( 'footer_content', [ $this, 'footer_content_callback' ], 10 );
 			add_action( 'footer_content', [ $this, 'footer_close_callback' ], 20 );
+		}
+
+		/**
+		 * Check current user authentication
+		 */
+		function maybe_check_authentication_callback() {
+			if ( is_app( false ) ) {
+				if ( ! is_user_logged_in() ) {
+					wp_redirect( home_url() );
+				} else {
+					if ( in_array( 'administrator', wp_get_current_user()->roles ) ) {
+						wp_redirect( home_url() );
+					}
+				}
+			}
 		}
 
 		/**

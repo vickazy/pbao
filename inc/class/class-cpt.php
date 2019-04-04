@@ -39,6 +39,7 @@ if ( ! class_exists( 'Class_CPT' ) ) {
 			$this->_load_dependencies();
 			$this->_register_angkatan();
 			$this->_register_kelas();
+			$this->_register_halaqah();
 		}
 
 		/**
@@ -64,6 +65,9 @@ if ( ! class_exists( 'Class_CPT' ) ) {
 			add_action( 'cmb2_admin_init', [ $this, '_register_kelas_metabox_callback' ] );
 		}
 
+		private function _register_halaqah(){
+			add_action( 'init', [ $this, '_register_halaqah_post_type_callback' ] );
+		}
 		/**
 		 * Callback for registering angkatan post type
 		 */
@@ -262,6 +266,32 @@ if ( ! class_exists( 'Class_CPT' ) ) {
 					'required' => 'required'
 				)
 			) );
+		}
+
+		function _register_halaqah_post_type_callback() {
+			$args_halaqah = [
+				'labels'              => [
+					'name'          => _x( 'Halaqah', 'Post Type General Name' ),
+					'singular_name' => _x( 'Halaqah', 'Post Type Singular Name' ),
+				],
+				'supports'            => [
+					'title',
+				],
+				'taxonomies'          => [],
+				'hierarchical'        => false,
+				'public'              => true,
+				'show_ui'             => true,
+				'show_in_menu'        => true,
+				'show_in_nav_menus'   => true,
+				'show_in_admin_bar'   => true,
+				'can_export'          => true,
+				'has_archive'         => true,
+				'exclude_from_search' => false,
+				'publicly_queryable'  => false,
+				'capability_type'     => 'page',
+				'menu_icon'           => 'dashicons-media-document',
+			];
+			register_post_type( 'halaqah', $args_halaqah );
 		}
 	}
 }
