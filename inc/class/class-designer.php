@@ -176,8 +176,14 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		 */
 		function maybe_app_topbar_callback() {
 			if ( is_app( false ) ) {
+				$me = wp_get_current_user();
 				echo self::$temp->render( 'app-before-topbar' ); // div#content-wrapper div#content
-				echo self::$temp->render( 'app-topbar' );
+				echo self::$temp->render( 'app-topbar', [
+					'me' => [
+						'name'       => $me->display_name,
+						'avatar_url' => get_avatar_url( $me->ID )
+					]
+				] );
 			}
 		}
 
