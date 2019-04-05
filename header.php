@@ -14,5 +14,5 @@ do_action( 'header_content' );
 /** If current page is not app page it will be treated as landing page, which needs top nav bar */
 if ( ! is_app() ) {
 	global $temp;
-	echo $temp->render( 'landing-top-nav' );
+	echo $temp->render( 'landing-top-nav', [ 'title' => PREFIX ] );
 }
