@@ -237,7 +237,9 @@ if ( ! class_exists( 'Class_Designer' ) ) {
 		 * Callback for head content
 		 */
 		function head_content_callback() {
-			echo "<meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">";
+			echo "<meta charset=\"" . get_bloginfo( 'charset' ) . "\" />";
+			echo "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">";
+			echo "<link rel=\"pingback\" href=\"" . get_bloginfo( 'pingback_url' ) . "\"/>";
 		}
 
 		/**
